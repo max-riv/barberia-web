@@ -53,18 +53,19 @@ El descanso diario se modela como dos tramos de `working_hours`.
 - [x] `/api/health` contra Supabase.
 - [x] `AGENTS.md` y agentes en `.opencode/agents/`.
 - [x] CI de GitHub Actions y plantilla de PR.
-- [ ] Sitio de Netlify conectado y primer deploy verde.
+- [x] Sitio de Netlify conectado y primer deploy verde.
 
 **Verificación:** URL pública carga · `/api/health` responde `ok` · CI en verde.
 
 ### Fase 1.1 — Base de datos, reglas y seguridad
 
-- [ ] Migraciones con tablas, enums, índices y el constraint de exclusión.
-- [ ] Funciones `get_available_slots`, `book_appointment`, `cancel_appointment`.
-- [ ] RLS y `GRANT` explícitos (la exposición automática está desactivada).
-- [ ] Seed demo: negocio en Costa Rica, 1 barbero, corte de 30 min, Lun–Sáb
-      9:00–18:00 con descanso 12:00–13:00.
-- [ ] Tests de base de datos para las cinco reglas.
+- [x] Migración con tablas, enums, índices y el constraint de exclusión.
+- [x] Funciones `get_available_slots`, `book_appointment`, `cancel_appointment`.
+- [x] RLS y `GRANT` explícitos (la exposición automática está desactivada).
+- [x] Seed real: Charlie's Barbershop, 1 barbero, corte de 30 min ₡6.000,
+      miércoles cerrado, 08:00–12:00 y 13:00–18:00.
+- [x] Ficha del negocio en [`docs/business.md`](./business.md).
+- [x] Migración aplicada en Supabase y `npm run test:db` en verde (18/18).
 
 **Verificación:** doble reserva simultánea rechazada · descanso respetado ·
 `<1 h` y `>30 días` rechazados · `anon` no puede leer teléfonos.

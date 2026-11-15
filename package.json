@@ -13,6 +13,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:db": "node scripts/db-smoke-test.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
