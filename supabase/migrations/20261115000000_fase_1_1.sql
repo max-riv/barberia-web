@@ -628,7 +628,7 @@ on conflict (id) do nothing;
 insert into public.working_hours (barber_id, weekday, start_time, end_time)
 select
   '00000000-0000-4000-8000-000000000002'::uuid,
-  d::smallint,
+  d.dia::smallint,
   tramo.inicio,
   tramo.fin
 from (values (0), (1), (2), (4), (5), (6)) as d(dia)
