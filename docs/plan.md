@@ -72,14 +72,27 @@ El descanso diario se modela como dos tramos de `working_hours`.
 
 ### Fase 1.2 — Página pública de reserva
 
-- [ ] Landing mobile-first con datos reales del negocio.
-- [ ] Selector de fecha (30 días) y horarios por mañana/tarde.
-- [ ] Formulario nombre + teléfono con validación `+506`.
-- [ ] Server Action con manejo de conflicto y recarga de horarios.
-- [ ] Antispam: honeypot y límite de citas activas por teléfono.
+- [x] Landing mobile-first con datos reales del negocio.
+- [x] Selector de fecha (30 días) y horarios por mañana/tarde.
+- [x] Formulario nombre + teléfono con validación `+506`.
+- [x] Server Action con manejo de conflicto y recarga de horarios.
+- [x] Antispam: honeypot y límite de citas activas por teléfono
+      (`20261115000001_fase_1_2_limite_citas.sql`, máximo 3 citas futuras).
 
 **Verificación:** reserva real desde el celular a 360 px · segundo intento del
 mismo bloque muestra mensaje claro.
+
+Notas de implementación:
+
+- `src/lib/booking.ts` concentra fechas (siempre `America/Costa_Rica`), teléfono
+  E.164, precios y el parseo de las respuestas de Supabase.
+- El formulario sigue funcionando sin JavaScript: los selectores de día y hora
+  son enlaces con `?fecha=` y `?hora=`.
+- Tras reservar, la página se vuelve a renderizar con la misma URL. Para no
+  perder el mensaje de éxito, el formulario se mantiene montado y recibe
+  `taken`; el aviso de "espacio ocupado" vive dentro del componente.
+- La tira de días muestra flechas y degradados cuando quedan días fuera de la
+  vista, ajusta el scroll a las tarjetas y centra el día elegido (issue #2).
 
 ### Fase 1.3 — Confirmación, WhatsApp y cancelación
 

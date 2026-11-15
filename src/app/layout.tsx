@@ -4,12 +4,12 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "Barbería · Reserva tu cita",
-    template: "%s · Barbería",
+    default: "Charlie's Barbershop · Reserva tu cita",
+    template: "%s · Charlie's Barbershop",
   },
   description:
     "Reserva tu corte en línea en bloques de 30 minutos, sin crear cuenta y sin llamadas.",
-  applicationName: "Barbería",
+  applicationName: "Charlie's Barbershop",
   formatDetection: { telephone: true },
 };
 

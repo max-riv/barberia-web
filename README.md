@@ -58,6 +58,13 @@ dashboard.
 npm run test:db
 ```
 
+Las migraciones se aplican **en orden de nombre**, una sola vez:
+
+| Archivo                                    | Qué añade                                         |
+| ------------------------------------------ | ------------------------------------------------- |
+| `20261115000000_fase_1_1.sql`              | tablas, RLS, RPC de reserva y cancelación         |
+| `20261115000001_fase_1_2_limite_citas.sql` | límite de 3 citas futuras por teléfono (antispam) |
+
 El script usa la clave pública y comprueba las reglas reales: doble reserva,
 concurrencia, descanso, antelación, rango de 30 días, miércoles cerrado,
 teléfonos, cancelación y RLS. Crea citas de prueba y las cancela al terminar;
@@ -65,6 +72,18 @@ por eso no corre en CI y solo debe apuntar al proyecto de desarrollo.
 
 Los datos del negocio están en [`docs/business.md`](./docs/business.md) y en el
 seed de la migración.
+
+## Reserva pública
+
+- `/` muestra el servicio, el precio y el horario reales del negocio.
+- `/reservar` lista los próximos 30 días con atención y los espacios libres de
+  cada día, separados en mañana y tarde.
+- El cliente elige un bloque de 30 minutos y solo deja nombre y teléfono. El
+  teléfono se normaliza a `+506XXXXXXXX`.
+- La página funciona sin JavaScript: día y hora son enlaces (`?fecha=` y
+  `?hora=`), y el formulario se envía con una Server Action.
+- La base de datos vuelve a validar antelación, horario, bloqueos y doble
+  reserva; el navegador no es la fuente de verdad.
 
 ## Verificar el despliegue
 
@@ -87,7 +106,7 @@ por fases en [`docs/plan.md`](./docs/plan.md).
 
 - [x] **Fase 0** — andamiaje, despliegue y verificación de salud.
 - [x] **Fase 1.1** — base de datos, reglas y RLS.
-- [ ] **Fase 1.2** — página pública de reserva.
+- [x] **Fase 1.2** — página pública de reserva.
 - [ ] **Fase 1.3** — confirmación, WhatsApp y cancelación.
 - [ ] **Fase 1.4** — login y panel del barbero.
 - [ ] **Fase 1.5** — horarios, descansos y bloqueos.

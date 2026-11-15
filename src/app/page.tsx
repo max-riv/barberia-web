@@ -1,40 +1,33 @@
 import Link from "next/link";
 
-/**
- * Fase 0: datos de ejemplo. En la Fase 1.5 pasan a leerse desde la tabla
- * `businesses` y `services` en Supabase.
- */
-const BUSINESS = {
-  name: "Barbería El Corte",
-  serviceName: "Corte clásico",
-  durationMinutes: 30,
-  schedule: "Lunes a sábado · 9:00 a 18:00",
-  breakTime: "Descanso de 12:00 a 13:00",
-};
+import { SiteHeader } from "@/components/site-header";
+import { describeSchedule, formatPrice } from "@/lib/booking";
+import { BUSINESS_FALLBACK } from "@/lib/business";
+import { loadBusinessContext } from "@/lib/booking-data";
 
-export default function Home() {
+// Los datos vienen de Supabase y cambian sin deploy (Fase 1.5). Sin esto Next
+// prerenderiza la portada en el build y se queda con datos viejos.
+export const dynamic = "force-dynamic";
+
+export default async function Home() {
+  const context = await loadBusinessContext();
+
+  const name = context?.business.name ?? BUSINESS_FALLBACK.name;
+  const serviceName = context?.service.name ?? "Corte";
+  const durationMinutes = context?.service.durationMinutes ?? 30;
+  const price = context
+    ? formatPrice(context.service.priceCents, context.business.currency)
+    : null;
+  const schedule = context
+    ? describeSchedule(context.schedule)
+    : { days: "Miércoles cerrado", hours: "08:00 a 12:00 y 13:00 a 18:00" };
+  const address = context?.business.address ?? null;
+
   return (
     <div className="flex min-h-dvh flex-col">
-      <header className="border-b border-line/70">
-        <div className="mx-auto flex w-full max-w-5xl items-center justify-between gap-3 px-5 py-4">
-          <span className="flex items-center gap-2.5">
-            <span
-              aria-hidden="true"
-              className="grid size-9 place-items-center rounded-full bg-ink text-sm font-semibold text-sand"
-            >
-              B
-            </span>
-            <span className="text-sm font-semibold tracking-tight">
-              {BUSINESS.name}
-            </span>
-          </span>
-          <span className="rounded-full border border-line px-2.5 py-1 text-xs font-medium text-ink-soft">
-            Versión en construcción
-          </span>
-        </div>
-      </header>
+      <SiteHeader businessName={name} />
 
-      <main className="mx-auto w-full max-w-5xl flex-1 px-5">
+      <main className="mx-auto w-full max-w-3xl flex-1 px-5">
         <section className="pt-10 pb-8 sm:pt-16">
           <p className="text-xs font-semibold tracking-[0.18em] text-copper uppercase">
             Reservas en línea
@@ -43,8 +36,8 @@ export default function Home() {
             Tu corte, sin llamadas ni esperas.
           </h1>
           <p className="mt-4 max-w-md text-base leading-relaxed text-ink-soft">
-            Elige el espacio de 30 minutos que te sirva, deja tu nombre y
-            teléfono, y listo. Sin crear cuenta.
+            Elige el espacio de {durationMinutes} minutos que te sirva, deja tu
+            nombre y teléfono, y listo. Sin crear cuenta.
           </p>
 
           <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -72,12 +65,10 @@ export default function Home() {
             <p className="text-xs font-semibold tracking-[0.14em] text-ink-soft uppercase">
               Servicio
             </p>
-            <h2 className="mt-2 text-xl font-semibold">
-              {BUSINESS.serviceName}
-            </h2>
+            <h2 className="mt-2 text-xl font-semibold">{serviceName}</h2>
             <p className="mt-1 text-sm text-ink-soft">
-              Bloques de {BUSINESS.durationMinutes} minutos · precio por
-              confirmar
+              Bloques de {durationMinutes} minutos
+              {price ? ` · ${price}` : ""}
             </p>
           </article>
 
@@ -85,8 +76,12 @@ export default function Home() {
             <p className="text-xs font-semibold tracking-[0.14em] text-ink-soft uppercase">
               Horario
             </p>
-            <h2 className="mt-2 text-xl font-semibold">{BUSINESS.schedule}</h2>
-            <p className="mt-1 text-sm text-ink-soft">{BUSINESS.breakTime}</p>
+            <h2 className="mt-2 text-xl font-semibold capitalize">
+              {schedule.days}
+            </h2>
+            {schedule.hours ? (
+              <p className="mt-1 text-sm text-ink-soft">{schedule.hours}</p>
+            ) : null}
           </article>
         </section>
 
@@ -98,7 +93,7 @@ export default function Home() {
             {[
               ["1", "Elige fecha y hora", "Ves solo los espacios disponibles."],
               ["2", "Deja tu nombre", "Tu teléfono, para confirmar la cita."],
-              ["3", "Confirma por WhatsApp", "Un enlace con el mensaje listo."],
+              ["3", "Queda reservada", "Te esperamos en el local."],
             ].map(([step, title, detail]) => (
               <li
                 key={step}
@@ -116,10 +111,10 @@ export default function Home() {
       </main>
 
       <footer className="border-t border-line/70">
-        <div className="mx-auto flex w-full max-w-5xl flex-col gap-2 px-5 py-6 text-xs text-ink-soft sm:flex-row sm:items-center sm:justify-between">
+        <div className="mx-auto flex w-full max-w-3xl flex-col gap-2 px-5 py-6 text-xs text-ink-soft sm:flex-row sm:items-center sm:justify-between">
           <p>
-            {BUSINESS.name} · Datos de ejemplo mientras terminamos la
-            configuración.
+            {name}
+            {address ? ` · ${address}` : ""}
           </p>
           <p>Hecho para reservar desde el celular.</p>
         </div>
