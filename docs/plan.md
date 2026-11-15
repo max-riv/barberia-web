@@ -91,6 +91,8 @@ Notas de implementación:
 - Tras reservar, la página se vuelve a renderizar con la misma URL. Para no
   perder el mensaje de éxito, el formulario se mantiene montado y recibe
   `taken`; el aviso de "espacio ocupado" vive dentro del componente.
+- La tira de días muestra flechas y degradados cuando quedan días fuera de la
+  vista, ajusta el scroll a las tarjetas y centra el día elegido (issue #2).
 
 ### Fase 1.3 — Confirmación, WhatsApp y cancelación
 
