@@ -86,8 +86,7 @@ por fases en [`docs/plan.md`](./docs/plan.md).
 ## Estado
 
 - [x] **Fase 0** — andamiaje, despliegue y verificación de salud.
-- [ ] **Fase 1.1** — base de datos, reglas y RLS (código listo; falta aplicar la
-      migración y verificarla).
+- [x] **Fase 1.1** — base de datos, reglas y RLS.
 - [ ] **Fase 1.2** — página pública de reserva.
 - [ ] **Fase 1.3** — confirmación, WhatsApp y cancelación.
 - [ ] **Fase 1.4** — login y panel del barbero.

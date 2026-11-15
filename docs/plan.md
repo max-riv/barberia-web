@@ -65,7 +65,7 @@ El descanso diario se modela como dos tramos de `working_hours`.
 - [x] Seed real: Charlie's Barbershop, 1 barbero, corte de 30 min ₡6.000,
       miércoles cerrado, 08:00–12:00 y 13:00–18:00.
 - [x] Ficha del negocio en [`docs/business.md`](./business.md).
-- [ ] Aplicar la migración en Supabase y correr `npm run test:db` (14 en verde).
+- [x] Migración aplicada en Supabase y `npm run test:db` en verde (18/18).
 
 **Verificación:** doble reserva simultánea rechazada · descanso respetado ·
 `<1 h` y `>30 días` rechazados · `anon` no puede leer teléfonos.
