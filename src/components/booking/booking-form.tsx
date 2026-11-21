@@ -4,12 +4,7 @@ import Link from "next/link";
 import { useActionState } from "react";
 
 import { bookAppointmentAction } from "@/actions/book-appointment";
-import {
-  formatLongDate,
-  formatSlotTime,
-  localDateOf,
-  type BookingSlot,
-} from "@/lib/booking";
+import type { BookingSlot } from "@/lib/booking";
 import { initialBookingState } from "@/lib/booking-state";
 
 const INPUT_CLASS =
@@ -31,46 +26,6 @@ export function BookingForm({
     bookAppointmentAction,
     initialBookingState,
   );
-
-  if (state.status === "success") {
-    const { appointment } = state;
-    const date = localDateOf(appointment.startsAt);
-
-    return (
-      <div
-        role="status"
-        className="rounded-2xl border border-copper/40 bg-white/80 p-5"
-      >
-        <p className="text-xs font-semibold tracking-[0.16em] text-copper uppercase">
-          Cita reservada
-        </p>
-        <p className="mt-2 text-xl font-semibold tracking-tight">
-          {formatLongDate(date)}
-        </p>
-        <p className="mt-1 text-ink-soft">
-          A las {formatSlotTime(appointment.startsAt)}, 30 minutos.
-        </p>
-        <p className="mt-4 text-sm text-ink-soft">
-          Te esperamos, {appointment.name}. Si necesitas cambiarla, escríbenos
-          por WhatsApp con tu nombre y la hora.
-        </p>
-        <div className="mt-5 flex flex-col gap-2 sm:flex-row">
-          <Link
-            href="/reservar"
-            className="inline-flex min-h-11 items-center justify-center rounded-xl bg-ink px-5 text-sm font-semibold text-sand transition-colors hover:bg-ink-soft"
-          >
-            Reservar otra cita
-          </Link>
-          <Link
-            href="/"
-            className="inline-flex min-h-11 items-center justify-center rounded-xl border border-line px-5 text-sm font-semibold text-ink transition-colors hover:bg-sand-deep"
-          >
-            Volver al inicio
-          </Link>
-        </div>
-      </div>
-    );
-  }
 
   const error = state.status === "error" ? state : null;
 
@@ -180,7 +135,8 @@ export function BookingForm({
       </button>
 
       <p className="text-xs leading-relaxed text-ink-soft">
-        Reservas sin crear cuenta. Puedes cancelar hasta el inicio de la cita.
+        Al confirmar, se abre el enlace de tu cita: guárdalo para confirmarla
+        por WhatsApp o cancelarla. Sin crear cuenta.
       </p>
     </form>
   );

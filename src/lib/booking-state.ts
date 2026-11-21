@@ -3,17 +3,6 @@
 
 export type BookingState =
   | { status: "idle" }
-  | { status: "error"; message: string; field?: "name" | "phone" | "slot" }
-  | {
-      status: "success";
-      appointment: {
-        /** Token del enlace de cancelación (Fase 1.3 lo usa en /cita/[token]). */
-        token: string;
-        startsAt: string;
-        endsAt: string;
-        name: string;
-        phone: string;
-      };
-    };
+  | { status: "error"; message: string; field?: "name" | "phone" | "slot" };
 
 export const initialBookingState: BookingState = { status: "idle" };
