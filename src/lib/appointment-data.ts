@@ -28,8 +28,18 @@ export async function loadPublicAppointment(
   });
 
   if (error) {
+    // `APPOINTMENT_NOT_FOUND` es el caso esperado (enlace inválido o cita
+    // borrada). Cualquier otro error es un fallo de la RPC y debe quedar en el
+    // log: de lo contrario se muestra un 404 y la causa real queda oculta.
+    if (error.message !== "APPOINTMENT_NOT_FOUND") {
+      console.error("get_appointment_by_token falló:", error.message);
+    }
     return null;
   }
 
-  return parsePublicAppointment(data);
+  const appointment = parsePublicAppointment(data);
+  if (!appointment) {
+    console.error("get_appointment_by_token devolvió un formato inesperado");
+  }
+  return appointment;
 }
