@@ -1,5 +1,7 @@
 "use server";
 
+import { redirect } from "next/navigation";
+
 import { BARBER_ID, SERVICE_ID } from "@/lib/business";
 import {
   formatSlotTime,
@@ -167,14 +169,6 @@ export async function bookAppointmentAction(
     };
   }
 
-  return {
-    status: "success",
-    appointment: {
-      token: appointment.token,
-      startsAt: appointment.startsAt,
-      endsAt: appointment.endsAt,
-      name,
-      phone,
-    },
-  };
+  // `redirect` lanza una excepción de control: debe quedar fuera de try/catch.
+  redirect(`/cita/${appointment.token}`);
 }
