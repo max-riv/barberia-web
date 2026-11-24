@@ -163,6 +163,35 @@ function expectError(result, code) {
   }
 }
 
+/**
+ * Comprueba que `anon` no tenga EXECUTE sobre una RPC del panel. Distingue el
+ * permiso denegado de una función que todavía no existe para que el mensaje
+ * apunte a la migración correcta.
+ */
+function expectPermissionDenied(result, name) {
+  if (!result.error) {
+    throw new Error(`anon pudo ejecutar ${name}`);
+  }
+
+  const message = String(result.error.message);
+
+  if (/permission denied/i.test(message)) {
+    return;
+  }
+
+  if (
+    /does not exist|could not find the function|schema cache/i.test(message)
+  ) {
+    throw new Error(
+      `la función ${name} no existe todavía; aplica supabase/migrations/20261124000000_fase_1_4_panel.sql`,
+    );
+  }
+
+  throw new Error(
+    `se esperaba un permiso denegado en ${name}, se recibió "${message}"`,
+  );
+}
+
 // ---------------------------------------------------------------------------
 // Runner
 // ---------------------------------------------------------------------------
@@ -240,6 +269,48 @@ async function main() {
       );
     },
   );
+
+  // --- Panel del barbero (Fase 1.4) ----------------------------------------
+  await run("anon no puede leer appointments", async () => {
+    const { data, error } = await supabase
+      .from("appointments")
+      .select("id")
+      .limit(1);
+
+    assert(
+      Boolean(error) || (data ?? []).length === 0,
+      "anon pudo leer appointments",
+    );
+  });
+
+  await run("anon no puede ejecutar admin_get_agenda", async () => {
+    const result = await supabase.rpc("admin_get_agenda", {
+      p_from: isoDateCR(0),
+      p_to: isoDateCR(7),
+    });
+
+    expectPermissionDenied(result, "admin_get_agenda");
+  });
+
+  await run("anon no puede ejecutar admin_create_appointment", async () => {
+    const result = await supabase.rpc("admin_create_appointment", {
+      p_service_id: SERVICE_ID,
+      p_starts_at: `${isoDateCR(40)}T10:00:00-06:00`,
+      p_customer_name: "Prueba QA",
+      p_customer_phone: "87677997",
+    });
+
+    expectPermissionDenied(result, "admin_create_appointment");
+  });
+
+  await run("anon no puede ejecutar admin_set_appointment_status", async () => {
+    const result = await supabase.rpc("admin_set_appointment_status", {
+      p_appointment_id: "11111111-1111-4111-8111-111111111111",
+      p_status: "cancelled",
+    });
+
+    expectPermissionDenied(result, "admin_set_appointment_status");
+  });
 
   // --- Disponibilidad -------------------------------------------------------
   const availabilityDate = workingDate(3);
