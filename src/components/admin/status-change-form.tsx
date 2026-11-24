@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 
 import { setAppointmentStatusAction } from "@/actions/admin-appointments";
 import {
@@ -19,8 +20,7 @@ const SELECT_CLASS =
 
 /**
  * Formulario de cambio de estado de una cita. Ir a `cancelled` pide
- * confirmación en dos pasos (patrón de `cancel-appointment-form.tsx`); el
- * cambio real lo decide la base de datos.
+ * confirmación en dos pasos; el cambio real lo decide la base de datos.
  */
 export function StatusChangeForm({
   appointmentId,
@@ -29,11 +29,12 @@ export function StatusChangeForm({
   appointmentId: string;
   initialStatus: AppointmentStatus;
 }) {
+  const router = useRouter();
   const [state, formAction, pending] = useActionState(
     setAppointmentStatusAction,
     initialAdminStatusState,
   );
-  const [selected, setSelected] = useState<AppointmentStatus>(initialStatus);
+  const [selected, setSelected] = useState<AppointmentStatus | null>(null);
   const [confirming, setConfirming] = useState(false);
   const confirmButtonRef = useRef<HTMLButtonElement>(null);
   const isFirstRender = useRef(true);
@@ -50,22 +51,32 @@ export function StatusChangeForm({
     }
   }, [confirming]);
 
-  if (state.status === "updated") {
-    return (
-      <p
-        role="status"
-        className="rounded-xl border border-line bg-sand-deep px-3 py-2.5 text-sm text-ink"
-      >
-        Estado actualizado: {appointmentStatusLabel(state.appointmentStatus)}.
-      </p>
-    );
-  }
+  useEffect(() => {
+    if (state.status === "updated") {
+      router.refresh();
+    }
+  }, [router, state.status]);
 
-  const isCancelling = selected === "cancelled";
+  const serverStatus =
+    state.status === "updated" ? state.appointmentStatus : initialStatus;
+  const effectiveStatus = selected ?? serverStatus;
+  const isCancelling = effectiveStatus === "cancelled";
+  const showConfirmation = confirming && state.status !== "updated";
 
   return (
     <form action={formAction} className="space-y-3">
       <input type="hidden" name="id" value={appointmentId} />
+
+      {state.status === "updated" &&
+      effectiveStatus === state.appointmentStatus ? (
+        <p
+          role="status"
+          className="rounded-xl border border-line bg-sand-deep px-3 py-2.5 text-sm text-ink"
+        >
+          Estado actualizado:{" "}
+          {appointmentStatusLabel(state.appointmentStatus)}.
+        </p>
+      ) : null}
 
       {state.status === "error" && state.message ? (
         <p role="alert" className={ADMIN_ERROR_BOX_CLASS}>
@@ -75,10 +86,14 @@ export function StatusChangeForm({
 
       <select
         name="estado"
-        value={selected}
-        onChange={(event) =>
-          setSelected(event.target.value as AppointmentStatus)
-        }
+        value={effectiveStatus}
+        onChange={(event) => {
+          const value = event.target.value as AppointmentStatus;
+          setSelected(value);
+          if (confirming && value !== "cancelled") {
+            setConfirming(false);
+          }
+        }}
         disabled={pending}
         aria-label="Estado de la cita"
         className={SELECT_CLASS}
@@ -90,7 +105,7 @@ export function StatusChangeForm({
         ))}
       </select>
 
-      {confirming ? (
+      {showConfirmation ? (
         <div className="rounded-xl border border-line bg-white/70 p-4">
           <p className="text-sm font-medium text-ink">
             ¿Seguro? El espacio queda libre para otra persona.
@@ -116,9 +131,10 @@ export function StatusChangeForm({
         </div>
       ) : (
         <button
-          type="button"
-          onClick={() => setConfirming(isCancelling)}
-          className="inline-flex min-h-12 w-full items-center justify-center rounded-xl border border-line bg-white px-5 text-sm font-semibold text-ink transition-colors hover:bg-sand-deep"
+          type={isCancelling ? "button" : "submit"}
+          onClick={isCancelling ? () => setConfirming(true) : undefined}
+          disabled={pending}
+          className="inline-flex min-h-12 w-full items-center justify-center rounded-xl border border-line bg-white px-5 text-sm font-semibold text-ink transition-colors hover:bg-sand-deep disabled:cursor-not-allowed disabled:opacity-60"
         >
           Cambiar estado
         </button>
