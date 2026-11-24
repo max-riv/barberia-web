@@ -9,7 +9,7 @@ import {
   useSyncExternalStore,
 } from "react";
 
-import { bookingHref, type DateOption } from "@/lib/booking";
+import type { DateOption } from "@/lib/booking";
 
 const EDGE_TOLERANCE = 8;
 
@@ -17,6 +17,12 @@ const EDGE_TOLERANCE = 8;
 const noSubscribe = () => () => {};
 const getClientSnapshot = () => true;
 const getServerSnapshot = () => false;
+
+/** Construye el enlace de un día sin pasar funciones al Client Component. */
+function dateHref(baseHref: string, date: string): string {
+  const params = new URLSearchParams({ fecha: date });
+  return `${baseHref}?${params.toString()}`;
+}
 
 function useIsHydrated(): boolean {
   return useSyncExternalStore(
@@ -55,9 +61,12 @@ function Chevron({ direction }: { direction: "left" | "right" }) {
 export function DateStrip({
   options,
   selected,
+  baseHref = "/reservar",
 }: {
   options: readonly DateOption[];
   selected: string;
+  /** Ruta base del selector; por defecto, la reserva pública. */
+  baseHref?: string;
 }) {
   const scrollerRef = useRef<HTMLDivElement>(null);
   const selectedRef = useRef<HTMLLIElement>(null);
@@ -155,7 +164,7 @@ export function DateStrip({
                 className="snap-start"
               >
                 <Link
-                  href={bookingHref(option.date)}
+                  href={dateHref(baseHref, option.date)}
                   aria-current={isSelected ? "date" : undefined}
                   aria-label={`${option.weekday} ${option.day} de ${option.month}`}
                   className={[

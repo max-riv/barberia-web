@@ -2,17 +2,23 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { CreateAppointmentForm } from "@/components/admin/create-appointment-form";
-import { loadAdminServices, loadAdminSlots } from "@/lib/admin-data";
+import { DateStrip } from "@/components/booking/date-strip";
 import {
-  addDays,
+  loadAdminOpenWeekdays,
+  loadAdminServices,
+  loadAdminSlots,
+} from "@/lib/admin-data";
+import {
+  buildDateOptions,
   formatLongDate,
-  isIsoDate,
   todayInBusinessTimezone,
-  weekdayOf,
 } from "@/lib/booking";
 import { getAdminAccess } from "@/lib/supabase/auth";
 
 export const dynamic = "force-dynamic";
+
+const BACK_LINK_CLASS =
+  "inline-flex min-h-12 items-center rounded-xl border border-line bg-white px-5 text-sm font-semibold text-ink transition-colors hover:bg-sand-deep";
 
 export default async function NuevaPage({
   searchParams,
@@ -26,24 +32,6 @@ export default async function NuevaPage({
     redirect("/admin/login");
   }
 
-  let fecha = todayInBusinessTimezone();
-
-  // Miércoles → saltar al siguiente día hábil: el barbería está cerrada.
-  if (weekdayOf(fecha) === 3) {
-    fecha = addDays(fecha, 1);
-  }
-
-  const requested = Array.isArray(params.fecha)
-    ? params.fecha[0]
-    : params.fecha;
-
-  if (typeof requested === "string" && isIsoDate(requested)) {
-    fecha = requested;
-  }
-
-  const services = await loadAdminServices(access.barber.businessId);
-  const slots = await loadAdminSlots(fecha);
-
   const showError = (message: string) => (
     <div className="space-y-4">
       <h1 className="text-2xl font-semibold tracking-tight">Nueva cita</h1>
@@ -53,16 +41,18 @@ export default async function NuevaPage({
       >
         {message}
       </p>
-      <Link
-        href="/admin"
-        className="inline-flex min-h-12 items-center rounded-xl border border-line bg-white px-5 text-sm font-semibold text-ink transition-colors hover:bg-sand-deep"
-      >
+      <Link href="/admin" className={BACK_LINK_CLASS}>
         Volver a la agenda
       </Link>
     </div>
   );
 
-  if (services === null || slots === null) {
+  const [openWeekdays, services] = await Promise.all([
+    loadAdminOpenWeekdays(access.barber.id),
+    loadAdminServices(access.barber.businessId),
+  ]);
+
+  if (openWeekdays === null || services === null) {
     return showError(
       "No pudimos cargar los datos del formulario. Inténtalo de nuevo en un momento.",
     );
@@ -74,21 +64,87 @@ export default async function NuevaPage({
     );
   }
 
-  if (slots.length === 0) {
+  const today = todayInBusinessTimezone();
+  const options = buildDateOptions({ today, openWeekdays });
+
+  if (options.length === 0) {
     return showError(
-      `No hay espacios disponibles para el ${formatLongDate(fecha)}. Vuelve mañana o elige otra fecha desde la agenda.`,
+      "Este barbero no tiene días de atención configurados en este momento.",
+    );
+  }
+
+  const requested = Array.isArray(params.fecha)
+    ? params.fecha[0]
+    : params.fecha;
+  const selectedDate =
+    typeof requested === "string" &&
+    options.some((option) => option.date === requested)
+      ? requested
+      : (options[0]?.date ?? today);
+
+  const datePicker = (
+    <section aria-labelledby="dia-cita" className="space-y-3">
+      <h2 id="dia-cita" className="text-sm font-semibold">
+        1. Elige el día
+      </h2>
+      <DateStrip
+        options={options}
+        selected={selectedDate}
+        baseHref="/admin/nueva"
+      />
+    </section>
+  );
+
+  const slots = await loadAdminSlots(selectedDate);
+
+  if (slots === null) {
+    return showError(
+      "No pudimos cargar los horarios del día elegido. Inténtalo de nuevo en un momento.",
+    );
+  }
+
+  if (slots.length === 0) {
+    return (
+      <div className="space-y-5">
+        <h1 className="text-2xl font-semibold tracking-tight">Nueva cita</h1>
+        {datePicker}
+        <p
+          role="alert"
+          className="rounded-xl border border-line bg-white/60 px-3 py-2.5 text-sm text-ink-soft"
+        >
+          No hay espacios disponibles para el {formatLongDate(selectedDate)}.
+          Elige otro día.
+        </p>
+      </div>
     );
   }
 
   return (
     <div className="space-y-5">
       <h1 className="text-2xl font-semibold tracking-tight">Nueva cita</h1>
-      <div className="rounded-xl border border-line bg-white/60 p-5">
+
+      {datePicker}
+
+      <section
+        aria-labelledby="datos-cita"
+        className="rounded-xl border border-line bg-white/60 p-5"
+      >
+        <h2
+          id="datos-cita"
+          className="mb-4 flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1 text-sm font-semibold"
+        >
+          <span>2. Datos de la cita</span>
+          <span className="text-xs font-normal text-ink-soft capitalize">
+            {formatLongDate(selectedDate)}
+          </span>
+        </h2>
         <CreateAppointmentForm services={services} slots={slots} />
-      </div>
-      <p className="text-xs text-ink-soft">
-        Si el cliente está aquí ya, puedes agendarlo manualmente. La validación
-        de espacios libres y modificaciones se hace en la base de datos.
+      </section>
+
+      <p className="text-xs leading-relaxed text-ink-soft">
+        Puedes agendar en cualquier día hábil dentro de los próximos 30 días. La
+        validación de espacios libres y modificaciones se hace en la base de
+        datos.
       </p>
     </div>
   );

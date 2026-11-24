@@ -118,6 +118,54 @@ export async function loadAdminSlots(
   return parseSlots(data);
 }
 
+/**
+ * Días con horario de atención del barbero autenticado. Sirve para que el
+ * panel solo ofrezca fechas laborables dentro de la ventana de 30 días.
+ */
+export async function loadAdminOpenWeekdays(
+  barberId: string,
+): Promise<number[] | null> {
+  if (!isUuid(barberId)) {
+    return null;
+  }
+
+  const supabase = await createSupabaseAuthServerClient();
+
+  if (!supabase) {
+    return null;
+  }
+
+  const { data, error } = await supabase
+    .from("working_hours")
+    .select("weekday")
+    .eq("barber_id", barberId);
+
+  if (error) {
+    console.error("No se pudieron leer los días de atención:", error.message);
+    return null;
+  }
+
+  if (!Array.isArray(data)) {
+    return null;
+  }
+
+  const weekdays: number[] = [];
+
+  for (const row of data) {
+    if (!isRecord(row) || typeof row.weekday !== "number") {
+      continue;
+    }
+
+    weekdays.push(row.weekday);
+  }
+
+  if (weekdays.length === 0) {
+    return null;
+  }
+
+  return [...new Set(weekdays)].sort((a, b) => a - b);
+}
+
 export type AdminService = {
   id: string;
   name: string;
