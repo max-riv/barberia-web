@@ -96,16 +96,16 @@ Notas de implementación:
 
 ### Fase 1.3 — Confirmación, WhatsApp y cancelación
 
-- [ ] `/cita/[token]` con resumen y estado.
-- [ ] Botón `wa.me` con mensaje prellenado.
-- [ ] `.ics` para agregar al calendario.
-- [ ] Cancelación con confirmación, hasta el inicio de la cita.
-- [ ] Open Graph para la vista previa en WhatsApp.
+- [x] `/cita/[token]` con resumen y estado.
+- [x] Botón `wa.me` con mensaje prellenado.
+- [x] `.ics` para agregar al calendario.
+- [x] Cancelación con confirmación, hasta el inicio de la cita.
+- [x] Open Graph para la vista previa en WhatsApp.
 
 **Verificación:** mensaje llega correcto · `.ics` abre en el calendario ·
 cancelar libera el bloque.
 
-### Fase 1.4 — Login y panel del barbero
+### Fase 1.4 — Login y panel del barberoen ma
 
 - [ ] Auth email + contraseña; ruta protegida.
 - [ ] Agenda de hoy y de la semana.
