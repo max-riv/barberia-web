@@ -49,7 +49,10 @@ function isIsoTimestamp(value: unknown): value is string {
   return typeof value === "string" && !Number.isNaN(Date.parse(value));
 }
 
-function parseStatus(value: unknown): AppointmentStatus | null {
+/** Convierte el valor crudo de la base de datos en un estado válido. */
+export function parseAppointmentStatus(
+  value: unknown,
+): AppointmentStatus | null {
   switch (value) {
     case "confirmed":
     case "cancelled":
@@ -124,7 +127,7 @@ export function parsePublicAppointment(
   }
 
   const id = row.appointment_id;
-  const status = parseStatus(row.status);
+  const status = parseAppointmentStatus(row.status);
   const startsAt = row.starts_at;
   const endsAt = row.ends_at;
   const customerName = row.customer_name;
