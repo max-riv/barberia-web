@@ -105,7 +105,7 @@ Notas de implementación:
 **Verificación:** mensaje llega correcto · `.ics` abre en el calendario ·
 cancelar libera el bloque.
 
-### Fase 1.4 — Login y panel del barberoen ma
+### Fase 1.4 — Login y panel del barbero
 
 - [ ] Auth email + contraseña; ruta protegida.
 - [ ] Agenda de hoy y de la semana.
