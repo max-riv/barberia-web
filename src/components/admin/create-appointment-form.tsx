@@ -47,7 +47,10 @@ export function CreateAppointmentForm({
       ) : null}
 
       <div>
-        <label htmlFor="servicio" className="block text-sm font-semibold text-ink">
+        <label
+          htmlFor="servicio"
+          className="block text-sm font-semibold text-ink"
+        >
           Servicio
         </label>
         <select
@@ -73,7 +76,10 @@ export function CreateAppointmentForm({
       </div>
 
       <div>
-        <label htmlFor="inicio" className="block text-sm font-semibold text-ink">
+        <label
+          htmlFor="inicio"
+          className="block text-sm font-semibold text-ink"
+        >
           Horario
         </label>
         <select
@@ -99,7 +105,10 @@ export function CreateAppointmentForm({
       </div>
 
       <div>
-        <label htmlFor="nombre" className="block text-sm font-semibold text-ink">
+        <label
+          htmlFor="nombre"
+          className="block text-sm font-semibold text-ink"
+        >
           Nombre del cliente
         </label>
         <input
@@ -121,7 +130,10 @@ export function CreateAppointmentForm({
       </div>
 
       <div>
-        <label htmlFor="telefono" className="block text-sm font-semibold text-ink">
+        <label
+          htmlFor="telefono"
+          className="block text-sm font-semibold text-ink"
+        >
           Teléfono
         </label>
         <input

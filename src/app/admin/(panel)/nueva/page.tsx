@@ -33,7 +33,9 @@ export default async function NuevaPage({
     fecha = addDays(fecha, 1);
   }
 
-  const requested = Array.isArray(params.fecha) ? params.fecha[0] : params.fecha;
+  const requested = Array.isArray(params.fecha)
+    ? params.fecha[0]
+    : params.fecha;
 
   if (typeof requested === "string" && isIsoDate(requested)) {
     fecha = requested;
@@ -85,9 +87,8 @@ export default async function NuevaPage({
         <CreateAppointmentForm services={services} slots={slots} />
       </div>
       <p className="text-xs text-ink-soft">
-        Si el cliente está aquí ya, puedes agendarlo manualmente. La
-        validación de espacios libres y modificaciones se hace en la base de
-        datos.
+        Si el cliente está aquí ya, puedes agendarlo manualmente. La validación
+        de espacios libres y modificaciones se hace en la base de datos.
       </p>
     </div>
   );

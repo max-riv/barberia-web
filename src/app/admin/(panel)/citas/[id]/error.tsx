@@ -11,12 +11,10 @@ export default function CitasDetalleError({
 }) {
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-semibold tracking-tight">
-        Algo salió mal
-      </h1>
+      <h1 className="text-2xl font-semibold tracking-tight">Algo salió mal</h1>
       <p className="text-sm leading-relaxed text-ink-soft">
-        No pudimos abrir el detalle de la cita. Inténtalo de nuevo o vuelve a
-        la agenda.
+        No pudimos abrir el detalle de la cita. Inténtalo de nuevo o vuelve a la
+        agenda.
       </p>
       <div className="flex flex-col gap-2 sm:flex-row">
         <button

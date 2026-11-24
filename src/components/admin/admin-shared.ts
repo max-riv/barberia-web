@@ -1,5 +1,6 @@
 /** Estilos compartidos del panel del barbero: colores y tamaños de entrada. */
-export const ADMIN_CARD_CLASS = "rounded-2xl border border-line bg-white/70 p-5";
+export const ADMIN_CARD_CLASS =
+  "rounded-2xl border border-line bg-white/70 p-5";
 
 export const ADMIN_INPUT_CLASS =
   "w-full rounded-xl border border-line bg-white px-3 py-3 text-base text-ink transition-colors placeholder:text-ink-soft/60 focus:border-ink focus:outline-none";

@@ -64,8 +64,8 @@ export default async function CitasDetallePage({
             {formatAdminAppointmentTime(appointment)}
           </AdminDetail>
           <AdminDetail label="Servicio">
-            {appointment.serviceName} · {appointment.serviceDurationMinutes}{" "}
-            min · {formatPrice(appointment.servicePriceCents)}
+            {appointment.serviceName} · {appointment.serviceDurationMinutes} min
+            · {formatPrice(appointment.servicePriceCents)}
           </AdminDetail>
           <AdminDetail label="Estado">
             <StatusBadge status={appointment.status} isPast={isPast} />

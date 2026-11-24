@@ -11,9 +11,7 @@ export default function AdminPanelError({
 }) {
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-semibold tracking-tight">
-        Algo salió mal
-      </h1>
+      <h1 className="text-2xl font-semibold tracking-tight">Algo salió mal</h1>
       <p className="text-sm leading-relaxed text-ink-soft">
         No es tu culpa. Inténtalo de nuevo en un momento o vuelve a la agenda.
       </p>

@@ -28,9 +28,8 @@ export default async function AdminPanelLayout({
             Tu cuenta no está vinculada al panel
           </h1>
           <p className="mt-3 text-sm leading-relaxed text-ink-soft">
-            El email{" "}
-            <strong className="text-ink">{access.email}</strong> ya está
-            registrado en la base de datos, pero no tiene un barbero activo
+            El email <strong className="text-ink">{access.email}</strong> ya
+            está registrado en la base de datos, pero no tiene un barbero activo
             vinculado. Cierra sesión para regresar al login o escríbenos por
             WhatsApp si necesitas ayuda.
           </p>
@@ -57,10 +56,7 @@ export default async function AdminPanelLayout({
           <SignOutForm />
         </div>
         <nav className="mx-auto flex w-full max-w-4xl gap-4 px-5 pb-3">
-          <Link
-            href="/admin"
-            className="text-sm text-ink-soft hover:text-ink"
-          >
+          <Link href="/admin" className="text-sm text-ink-soft hover:text-ink">
             Agenda
           </Link>
           <Link

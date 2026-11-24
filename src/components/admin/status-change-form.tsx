@@ -73,8 +73,7 @@ export function StatusChangeForm({
           role="status"
           className="rounded-xl border border-line bg-sand-deep px-3 py-2.5 text-sm text-ink"
         >
-          Estado actualizado:{" "}
-          {appointmentStatusLabel(state.appointmentStatus)}.
+          Estado actualizado: {appointmentStatusLabel(state.appointmentStatus)}.
         </p>
       ) : null}
 
