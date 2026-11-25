@@ -12,14 +12,14 @@ panel (`horarios`, `ajustes`) y `scripts/db-smoke-test.mjs`.
 
 ## Comandos ejecutados (estado final del árbol)
 
-| Comando        | Resultado                                  |
-| -------------- | ------------------------------------------ |
-| `npm run lint` | ✓ sin avisos                               |
-| `npm run typecheck` | ✓ estricto, sin errores             |
-| `npm run test` | ✓ 58/58 (27 booking + 17 schedule + 10 settings nuevos/casos + 4 env) |
-| `npm run build`| ✓ `/`, `/reservar`, `/admin/horarios`, `/admin/ajustes` dinámicos (ƒ) |
-| `npm run test:db` | ✓ 28/28 (incluye las 6 comprobaciones nuevas de `anon`) |
-| `npm run format:check` | ✓ Prettier limpio               |
+| Comando                | Resultado                                                             |
+| ---------------------- | --------------------------------------------------------------------- |
+| `npm run lint`         | ✓ sin avisos                                                          |
+| `npm run typecheck`    | ✓ estricto, sin errores                                               |
+| `npm run test`         | ✓ 58/58 (27 booking + 17 schedule + 10 settings nuevos/casos + 4 env) |
+| `npm run build`        | ✓ `/`, `/reservar`, `/admin/horarios`, `/admin/ajustes` dinámicos (ƒ) |
+| `npm run test:db`      | ✓ 28/28 (incluye las 6 comprobaciones nuevas de `anon`)               |
+| `npm run format:check` | ✓ Prettier limpio                                                     |
 
 Tests añadidos por QA (única carpeta editada junto a `docs/qa/**`):
 
