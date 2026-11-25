@@ -107,10 +107,10 @@ cancelar libera el bloque.
 
 ### Fase 1.4 — Login y panel del barbero
 
-- [ ] Auth email + contraseña; ruta protegida.
-- [ ] Agenda de hoy y de la semana.
-- [ ] Detalle de cita: llamar, WhatsApp, cancelar, completada / no asistió.
-- [ ] Cita manual para clientes sin reserva.
+- [x] Auth email + contraseña; ruta protegida.
+- [x] Agenda de hoy y de la semana.
+- [x] Detalle de cita: llamar, WhatsApp, cancelar, completada / no asistió.
+- [x] Cita manual para clientes sin reserva.
 
 **Verificación:** `/admin` sin sesión redirige al login · cancelar libera el
 bloque · usable en celular.
