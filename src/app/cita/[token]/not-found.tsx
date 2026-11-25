@@ -5,9 +5,9 @@ import { BUSINESS_FALLBACK } from "@/lib/business";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 const PRIMARY_LINK =
-  "inline-flex min-h-12 w-full items-center justify-center rounded-xl bg-ink px-6 text-center text-sm font-semibold text-sand transition-colors hover:bg-ink-soft";
+  "inline-flex min-h-14 w-full items-center justify-center rounded-lg bg-copper px-6 text-center text-sm font-bold text-sand transition-colors active:bg-copper-dark";
 const SECONDARY_LINK =
-  "inline-flex min-h-12 w-full items-center justify-center rounded-xl border border-line px-6 text-center text-sm font-semibold text-ink transition-colors hover:bg-sand-deep";
+  "inline-flex min-h-12 w-full items-center justify-center rounded-lg border border-line bg-surface px-6 text-center text-sm font-semibold text-ink transition-colors active:border-copper active:bg-panel";
 
 /** Token inválido o cita inexistente: mismo 404 amable para los dos casos. */
 export default function CitaNotFound() {
@@ -24,7 +24,7 @@ export default function CitaNotFound() {
           <p className="text-xs font-semibold tracking-[0.18em] text-copper uppercase">
             Cita no encontrada
           </p>
-          <h1 className="mt-2 text-3xl leading-tight font-semibold tracking-tight text-balance sm:text-4xl">
+          <h1 className="mt-4 text-5xl leading-[0.92] text-balance uppercase sm:text-6xl">
             No encontramos esta cita
           </h1>
           <p className="mt-3 max-w-md text-sm leading-relaxed text-ink-soft">

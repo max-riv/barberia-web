@@ -21,7 +21,7 @@ export default function CitaLoading() {
           <div className="mt-3 h-4 w-full max-w-sm animate-pulse rounded bg-sand-deep/80" />
         </section>
 
-        <div className="rounded-2xl border border-line bg-white/60 p-5">
+        <div className="rounded-2xl border border-line bg-surface/60 p-5">
           <div className="h-3 w-24 animate-pulse rounded-full bg-sand-deep" />
           <div className="mt-3 h-7 w-2/3 animate-pulse rounded-lg bg-sand-deep" />
           <div className="mt-2 h-5 w-32 animate-pulse rounded bg-sand-deep/80" />

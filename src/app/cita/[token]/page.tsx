@@ -18,9 +18,9 @@ import { buildAppointmentMessage, buildWhatsAppLink } from "@/lib/whatsapp";
 export const dynamic = "force-dynamic";
 
 const PRIMARY_LINK =
-  "inline-flex min-h-12 w-full items-center justify-center rounded-xl bg-ink px-6 text-center text-sm font-semibold text-sand transition-colors hover:bg-ink-soft";
+  "inline-flex min-h-14 w-full items-center justify-center rounded-lg bg-copper px-6 text-center text-base font-bold text-sand transition-colors active:bg-copper-dark";
 const SECONDARY_LINK =
-  "inline-flex min-h-12 w-full items-center justify-center rounded-xl border border-line px-6 text-center text-sm font-semibold text-ink transition-colors hover:bg-sand-deep";
+  "inline-flex min-h-12 w-full items-center justify-center rounded-lg border border-line bg-surface px-6 text-center text-sm font-bold text-ink transition-colors active:border-copper active:bg-panel";
 
 export async function generateMetadata(): Promise<Metadata> {
   // La URL es la llave de la cita: nada de nombres ni fechas en la vista previa.
@@ -95,21 +95,19 @@ export default async function CitaPage({
     <div className="flex min-h-dvh flex-col">
       <SiteHeader businessName={appointment.business.name} />
 
-      <main className="mx-auto w-full max-w-3xl flex-1 px-5 pb-16">
-        <section className="pt-8 pb-6" aria-labelledby="cita-titulo">
+      <main className="mx-auto w-full max-w-2xl flex-1 px-4 pb-16 sm:px-6">
+        <section className="pt-8 pb-7 sm:pt-12" aria-labelledby="cita-titulo">
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <p className="text-xs font-semibold tracking-[0.18em] text-copper uppercase">
-              Tu cita
-            </p>
+            <p className="eyebrow">Tu cita</p>
             <StatusBadge status={appointment.status} isPast={isPast} />
           </div>
           <h1
             id="cita-titulo"
-            className="mt-2 text-3xl leading-tight font-semibold tracking-tight text-balance sm:text-4xl"
+            className="mt-4 text-5xl leading-[0.92] text-balance uppercase sm:text-6xl"
           >
             {heading}
           </h1>
-          <p className="mt-3 max-w-md text-sm leading-relaxed text-ink-soft">
+          <p className="mt-4 max-w-md text-sm leading-relaxed text-ink-soft">
             {intro}
           </p>
         </section>
@@ -131,7 +129,7 @@ export default async function CitaPage({
                 Se abre el chat con Chata y el mensaje listo para enviar.
               </p>
 
-              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+              <div className="mt-5 grid gap-3 sm:grid-cols-2">
                 <a
                   href={`/api/cita/${token}/cita.ics`}
                   className={SECONDARY_LINK}
@@ -178,11 +176,11 @@ export default async function CitaPage({
         </section>
       </main>
 
-      <footer className="border-t border-line/70">
-        <div className="mx-auto flex w-full max-w-3xl flex-col gap-2 px-5 py-6 text-xs text-ink-soft sm:flex-row sm:items-center sm:justify-between">
+      <footer className="border-t border-line/70 bg-[#0d0d0d]">
+        <div className="mx-auto flex w-full max-w-2xl flex-col gap-2 px-4 py-6 text-xs text-ink-soft sm:flex-row sm:items-center sm:justify-between sm:px-6">
           <Link
             href="/"
-            className="w-fit rounded font-semibold text-ink underline decoration-line underline-offset-4"
+            className="inline-flex min-h-11 w-fit items-center rounded font-semibold text-ink underline decoration-copper underline-offset-4"
           >
             Volver al inicio
           </Link>

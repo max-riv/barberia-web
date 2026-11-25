@@ -148,12 +148,12 @@ export function DateStrip({
   const showArrows = isHydrated && hasOverflow;
 
   return (
-    <div className="relative -mx-5">
+    <div className="relative -mx-4">
       <div
         ref={scrollerRef}
-        className="snap-x snap-mandatory overflow-x-auto px-5 pb-1 scroll-px-5 [scrollbar-width:none]"
+        className="snap-x snap-mandatory overflow-x-auto scroll-px-4 px-4 pb-2 [scrollbar-width:none]"
       >
-        <ol className="flex min-w-max gap-2">
+        <ol className="flex min-w-max gap-2.5">
           {options.map((option) => {
             const isSelected = option.date === selected;
 
@@ -168,19 +168,19 @@ export function DateStrip({
                   aria-current={isSelected ? "date" : undefined}
                   aria-label={`${option.weekday} ${option.day} de ${option.month}`}
                   className={[
-                    "flex min-h-16 w-16 flex-col items-center justify-center rounded-xl border text-center transition-colors",
+                    "flex min-h-[76px] w-[68px] flex-col items-center justify-center rounded-xl border text-center transition-colors",
                     isSelected
-                      ? "border-ink bg-ink text-sand"
-                      : "border-line bg-white/60 text-ink hover:bg-sand-deep",
+                      ? "border-copper bg-copper text-sand shadow-[0_0_0_1px_#c98a62]"
+                      : "border-line bg-surface text-ink active:border-copper active:bg-panel",
                   ].join(" ")}
                 >
-                  <span className="text-[10px] font-semibold tracking-[0.12em] uppercase opacity-80">
+                  <span className="text-[10px] font-bold tracking-[0.14em] uppercase opacity-90">
                     {option.weekday}
                   </span>
-                  <span className="text-lg leading-tight font-semibold">
+                  <span className="mt-0.5 font-display text-2xl leading-none font-bold">
                     {option.day}
                   </span>
-                  <span className="text-[10px] leading-tight opacity-80">
+                  <span className="mt-1 text-[10px] leading-tight font-medium uppercase opacity-90">
                     {option.isToday ? "hoy" : option.month}
                   </span>
                 </Link>
@@ -213,7 +213,7 @@ export function DateStrip({
             onClick={() => nudge(-1)}
             disabled={!canScrollLeft}
             aria-label="Ver días anteriores"
-            className="absolute top-1/2 left-0 grid size-8 -translate-y-1/2 place-items-center rounded-full border border-line bg-sand/95 text-ink shadow-sm transition-opacity hover:bg-sand-deep disabled:pointer-events-none disabled:opacity-0"
+            className="absolute top-1/2 left-0 grid size-12 -translate-y-1/2 place-items-center rounded-full border border-line bg-panel/95 text-ink shadow-lg shadow-black/30 transition-opacity active:border-copper disabled:pointer-events-none disabled:opacity-0"
           >
             <Chevron direction="left" />
           </button>
@@ -222,7 +222,7 @@ export function DateStrip({
             onClick={() => nudge(1)}
             disabled={!canScrollRight}
             aria-label="Ver días siguientes"
-            className="absolute top-1/2 right-0 grid size-8 -translate-y-1/2 place-items-center rounded-full border border-line bg-sand/95 text-ink shadow-sm transition-opacity hover:bg-sand-deep disabled:pointer-events-none disabled:opacity-0"
+            className="absolute top-1/2 right-0 grid size-12 -translate-y-1/2 place-items-center rounded-full border border-line bg-panel/95 text-ink shadow-lg shadow-black/30 transition-opacity active:border-copper disabled:pointer-events-none disabled:opacity-0"
           >
             <Chevron direction="right" />
           </button>
