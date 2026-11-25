@@ -143,11 +143,31 @@ Notas de implementación:
 
 ### Fase 1.6 — Endurecimiento y entrega
 
-- [ ] Auditoría de RLS con la clave pública.
-- [ ] Responsive y Lighthouse móvil ≥ 90.
-- [ ] E2E Playwright del flujo completo.
-- [ ] Backup semanal y ping anti-pausa de Supabase.
-- [ ] Documentación de operación y tag `v1.0.0`.
+- [x] Auditoría de RLS con la clave pública (`scripts/rls-audit.mjs`,
+      `npm run audit:rls`, 44/44, reporte en `docs/qa/rls-audit.md`).
+- [x] Responsive y Lighthouse móvil ≥ 90 (93/100/100/100 medido en
+      producción; reporte en `docs/qa/lighthouse.md`).
+- [x] E2E Playwright del flujo completo (`tests/e2e/booking.spec.ts`,
+      2/2 en escritorio y a 360 px; reserva y cancelación reales).
+- [x] Backup semanal y ping anti-pausa de Supabase
+      (`.github/workflows/backup-semanal.yml` y `anti-pausa.yml`).
+- [x] Documentación de operación (`docs/operacion.md`, README al día) y
+      tag `v1.0.0`.
+
+**Verificación:** RLS sin agujeros con `anon` · Lighthouse ≥ 90 · E2E del
+flujo público en verde · backup y anti-pausa programados.
+
+Notas de implementación:
+
+- El backup usa `supabase db dump` en GitHub Actions (artifact, 400 días de
+  retención) y requiere el secret `SUPABASE_ACCESS_TOKEN`. El ping anti-pausa
+  corre cada 3 días para no rozar la pausa de 7 días de Supabase free.
+- Los E2E corren en local contra `npm run dev` y la base de `.env.local`
+  (crean y cancelan una cita real, como el smoke); no se programan en CI para
+  no escribir en producción.
+- Auditoría de la fase en `docs/qa/2026-11-25-fase-1-6-auditoria.md`
+  (APTO · smoke 28/28 · RLS 44/44 · Vitest 58/58 · E2E 2/2).
+- El tag `v1.0.0` se crea sobre `main` al fusionar el PR de esta fase.
 
 ## Fase 2 (no implementar todavía)
 

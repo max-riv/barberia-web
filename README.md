@@ -118,4 +118,4 @@ por fases en [`docs/plan.md`](./docs/plan.md).
 - [x] **Fase 1.3** — confirmación, WhatsApp y cancelación.
 - [x] **Fase 1.4** — login y panel del barbero.
 - [x] **Fase 1.5** — horarios, descansos y bloqueos.
-- [ ] **Fase 1.6** — endurecimiento y entrega (en curso).
+- [x] **Fase 1.6** — endurecimiento y entrega.
