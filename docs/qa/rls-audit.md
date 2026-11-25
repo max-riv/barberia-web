@@ -1,6 +1,6 @@
 # Auditoría de RLS con clave pública
 
-Fecha: 2026-11-25T17:57:31.138Z (UTC).
+Fecha: 2026-11-25T18:09:18.966Z (UTC).
 
 Auditoría ejecutada exclusivamente con `NEXT_PUBLIC_SUPABASE_ANON_KEY` y el rol `anon`; no se utilizó `service_role`.
 

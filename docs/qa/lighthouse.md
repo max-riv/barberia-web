@@ -7,12 +7,12 @@
 
 ## Resultado
 
-| Categoría | Puntuación | ¿≥ 90? |
-| --- | ---: | --- |
-| Performance | 93 | ✅ |
-| Accessibility | 100 | ✅ |
-| Best practices | 100 | ✅ |
-| SEO | 100 | ✅ |
+| Categoría      | Puntuación | ¿≥ 90? |
+| -------------- | ---------: | ------ |
+| Performance    |         93 | ✅     |
+| Accessibility  |        100 | ✅     |
+| Best practices |        100 | ✅     |
+| SEO            |        100 | ✅     |
 
 **El criterio queda cumplido**: las cuatro categorías están en ≥ 90, con
 Performance en 93. No se requieren cambios de código para alcanzar el objetivo.
@@ -21,16 +21,16 @@ Performance en 93. No se requieren cambios de código para alcanzar el objetivo.
 
 Lighthouse señala 9 auditorías por debajo del ideal. Las más relevantes:
 
-| Auditoría | Valor | Comentario |
-| --- | --- | --- |
-| `server-response-time` / `document-latency-insight` | TTFB ~4.0 s | Documento raíz lento |
-| `speed-index` | 6.9 s | Derivado de la latencia del servidor |
-| `lcp-breakdown-insight` | — | LCP dominado por el TTFB |
-| `unused-javascript` | ~28 KiB | Runtime de Next.js |
-| `legacy-javascript-insight` | ~13 KiB | Polyfills de Next.js |
-| `render-blocking-insight` | — | Recursos de arranque |
-| `cache-insight` | ~11 KiB | Cabeceras de caché |
-| `bf-cache` | — | Restauración back/forward |
+| Auditoría                                           | Valor       | Comentario                           |
+| --------------------------------------------------- | ----------- | ------------------------------------ |
+| `server-response-time` / `document-latency-insight` | TTFB ~4.0 s | Documento raíz lento                 |
+| `speed-index`                                       | 6.9 s       | Derivado de la latencia del servidor |
+| `lcp-breakdown-insight`                             | —           | LCP dominado por el TTFB             |
+| `unused-javascript`                                 | ~28 KiB     | Runtime de Next.js                   |
+| `legacy-javascript-insight`                         | ~13 KiB     | Polyfills de Next.js                 |
+| `render-blocking-insight`                           | —           | Recursos de arranque                 |
+| `cache-insight`                                     | ~11 KiB     | Cabeceras de caché                   |
+| `bf-cache`                                          | —           | Restauración back/forward            |
 
 ### Nota sobre el TTFB (decisión de diseño)
 
