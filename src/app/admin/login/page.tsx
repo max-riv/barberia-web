@@ -19,16 +19,31 @@ export default async function AdminLoginPage() {
   }
 
   return (
-    <main className="flex min-h-dvh items-center justify-center px-5 py-12">
-      <div className="w-full max-w-md space-y-5 rounded-2xl border border-line bg-white/70 p-6 sm:p-8">
-        <div className="text-center">
-          <h1 className="text-2xl font-semibold tracking-tight">Barbería</h1>
-          <p className="mt-1 text-sm leading-relaxed text-ink-soft">
-            Accede con el email del barbero y su contraseña.
+    <main className="relative flex min-h-dvh items-center justify-center overflow-hidden px-4 py-12">
+      <div
+        aria-hidden="true"
+        className="absolute inset-x-0 top-0 mx-auto h-1 max-w-6xl bg-copper"
+      />
+      <div className="urban-card w-full max-w-md p-6 sm:p-8">
+        <div>
+          <span
+            aria-hidden="true"
+            className="grid size-12 place-items-center rounded-lg border border-copper/60 bg-copper/10 font-display text-3xl font-bold text-copper"
+          >
+            C
+          </span>
+          <p className="eyebrow mt-6">Charlie&apos;s Barbershop</p>
+          <h1 className="mt-3 text-5xl leading-none uppercase">
+            Panel del barbero
+          </h1>
+          <p className="mt-3 text-sm leading-relaxed text-ink-soft">
+            Accede con tu email y contraseña para gestionar la agenda.
           </p>
         </div>
 
-        <LoginForm />
+        <div className="mt-7">
+          <LoginForm />
+        </div>
       </div>
     </main>
   );

@@ -16,7 +16,7 @@ import { getAdminAccess } from "@/lib/supabase/auth";
 export const dynamic = "force-dynamic";
 
 const RETRY_LINK_CLASS =
-  "inline-flex min-h-12 items-center rounded-xl border border-line bg-white px-5 text-sm font-semibold text-ink transition-colors hover:bg-sand-deep";
+  "inline-flex min-h-12 items-center rounded-xl border border-line bg-surface px-5 text-sm font-semibold text-ink transition-colors active:bg-panel";
 
 /** "08:00 a 12:00 · 13:00 a 18:00", o "Cerrado" si el día no tiene tramos. */
 function summarizeDay(ranges: readonly WorkingHoursRange[]): string {
@@ -42,9 +42,7 @@ export default async function HorariosPage() {
   if (workingHours === null || timeOffs === null) {
     return (
       <div className="space-y-4">
-        <h1 className="text-2xl font-semibold tracking-tight">
-          Horarios y bloqueos
-        </h1>
+        <h1 className="text-4xl leading-none uppercase">Horarios y bloqueos</h1>
         <p role="alert" className={ADMIN_ERROR_BOX_CLASS}>
           No pudimos cargar tus horarios y bloqueos ahora mismo. Inténtalo de
           nuevo en un momento.
@@ -60,19 +58,17 @@ export default async function HorariosPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-semibold tracking-tight">
-        Horarios y bloqueos
-      </h1>
+      <h1 className="text-4xl leading-none uppercase">Horarios y bloqueos</h1>
 
       <section aria-labelledby="horario-semanal" className="space-y-3">
-        <h2 id="horario-semanal" className="text-lg font-semibold text-ink">
+        <h2 id="horario-semanal" className="text-2xl text-ink uppercase">
           Horario semanal
         </h2>
         <p className="text-sm text-ink-soft">
           Define los tramos de atención de cada día. El cambio se refleja en tu
           página de reservas.
         </p>
-        <div className="space-y-3">
+        <div className="grid gap-3 xl:grid-cols-2 xl:items-start">
           {workingHours.map((day) => (
             <section
               key={day.weekday}
@@ -107,7 +103,7 @@ export default async function HorariosPage() {
       </section>
 
       <section aria-labelledby="bloqueos" className="space-y-3">
-        <h2 id="bloqueos" className="text-lg font-semibold text-ink">
+        <h2 id="bloqueos" className="text-2xl text-ink uppercase">
           Bloqueos
         </h2>
         <p className="text-sm text-ink-soft">
