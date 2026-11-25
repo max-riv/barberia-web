@@ -14,5 +14,13 @@ export const ADMIN_SECONDARY_BUTTON_CLASS =
 export const ADMIN_ERROR_BOX_CLASS =
   "rounded-xl border border-red-300 bg-red-50 px-3 py-2.5 text-sm text-red-800";
 
+/** Aviso positivo (guardado, creado): discreto, con la paleta del panel. */
+export const ADMIN_SUCCESS_BOX_CLASS =
+  "rounded-xl border border-line bg-sand-deep px-3 py-2.5 text-sm text-ink";
+
+/** Aviso que pide confirmación, como citas dentro de un bloqueo. */
+export const ADMIN_WARNING_BOX_CLASS =
+  "rounded-xl border border-amber-300 bg-amber-50 px-3 py-2.5 text-sm text-amber-900";
+
 export const ADMIN_DETAIL_LABEL_CLASS =
   "text-xs font-semibold tracking-[0.12em] text-ink-soft uppercase";

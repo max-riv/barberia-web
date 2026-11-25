@@ -4,6 +4,7 @@ import {
   addDays,
   bookingHref,
   buildDateOptions,
+  crLocalToIsoUtc,
   describeSchedule,
   formatLongDate,
   formatPhoneForDisplay,
@@ -120,6 +121,45 @@ describe("horas", () => {
     expect(label).toContain("jueves");
     expect(label).toContain("19");
     expect(label).toContain("noviembre");
+  });
+});
+
+describe("crLocalToIsoUtc", () => {
+  it("convierte fecha y hora de Costa Rica a un instante UTC", () => {
+    expect(crLocalToIsoUtc("2026-11-26", "08:00")).toBe(
+      "2026-11-26T14:00:00.000Z",
+    );
+    expect(crLocalToIsoUtc("2026-11-26", "23:59")).toBe(
+      "2026-11-27T05:59:00.000Z",
+    );
+  });
+
+  it("avanza un día con 24:00, también cruzando el año", () => {
+    expect(crLocalToIsoUtc("2026-11-26", "24:00")).toBe(
+      "2026-11-27T06:00:00.000Z",
+    );
+    expect(crLocalToIsoUtc("2026-12-31", "24:00")).toBe(
+      "2027-01-01T06:00:00.000Z",
+    );
+    expect(crLocalToIsoUtc("2028-02-28", "24:00")).toBe(
+      "2028-02-29T06:00:00.000Z",
+    );
+  });
+
+  it("devuelve null con entradas basura", () => {
+    expect(crLocalToIsoUtc("2026-02-31", "08:00")).toBeNull();
+    expect(crLocalToIsoUtc("2026-1-26", "08:00")).toBeNull();
+    expect(crLocalToIsoUtc("mañana", "08:00")).toBeNull();
+    expect(crLocalToIsoUtc("", "08:00")).toBeNull();
+
+    expect(crLocalToIsoUtc("2026-11-26", "8:00")).toBeNull();
+    expect(crLocalToIsoUtc("2026-11-26", "08:0")).toBeNull();
+    expect(crLocalToIsoUtc("2026-11-26", "0800")).toBeNull();
+    expect(crLocalToIsoUtc("2026-11-26", "24:01")).toBeNull();
+    expect(crLocalToIsoUtc("2026-11-26", "25:00")).toBeNull();
+    expect(crLocalToIsoUtc("2026-11-26", "12:60")).toBeNull();
+    expect(crLocalToIsoUtc("2026-11-26", "")).toBeNull();
+    expect(crLocalToIsoUtc("2026-11-26", "24:00:00")).toBeNull();
   });
 });
 

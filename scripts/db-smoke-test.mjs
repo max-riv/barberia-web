@@ -66,6 +66,13 @@ const SLOT_MINUTES = 30;
 const CR_OFFSET_MS = 6 * 60 * 60 * 1000; // America/Costa_Rica = UTC-6
 const CLOSED_WEEKDAY = 3; // miércoles
 
+// Migraciones del panel, para que el aviso de "función no existe" apunte a la
+// migración correcta.
+const PHASE_14_MIGRATION =
+  "supabase/migrations/20261124000000_fase_1_4_panel.sql";
+const PHASE_15_MIGRATION =
+  "supabase/migrations/20261124000001_fase_1_5_horarios_bloqueos_ajustes.sql";
+
 // ---------------------------------------------------------------------------
 // Utilidades de fecha (Costa Rica, sin horario de verano)
 // ---------------------------------------------------------------------------
@@ -168,7 +175,11 @@ function expectError(result, code) {
  * permiso denegado de una función que todavía no existe para que el mensaje
  * apunte a la migración correcta.
  */
-function expectPermissionDenied(result, name) {
+function expectPermissionDenied(
+  result,
+  name,
+  migrationFile = PHASE_14_MIGRATION,
+) {
   if (!result.error) {
     throw new Error(`anon pudo ejecutar ${name}`);
   }
@@ -183,7 +194,7 @@ function expectPermissionDenied(result, name) {
     /does not exist|could not find the function|schema cache/i.test(message)
   ) {
     throw new Error(
-      `la función ${name} no existe todavía; aplica supabase/migrations/20261124000000_fase_1_4_panel.sql`,
+      `la función ${name} no existe todavía; aplica ${migrationFile}`,
     );
   }
 
@@ -310,6 +321,79 @@ async function main() {
     });
 
     expectPermissionDenied(result, "admin_set_appointment_status");
+  });
+
+  // --- Fase 1.5: horarios, descansos y ajustes -------------------------------
+  // Estas comprobaciones solo pasan después de aplicar a mano
+  // supabase/migrations/20261124000001_fase_1_5_horarios_bloqueos_ajustes.sql
+  // en el SQL Editor (igual que las fases anteriores).
+
+  await run("anon no puede ejecutar admin_set_working_hours", async () => {
+    const result = await supabase.rpc("admin_set_working_hours", {
+      p_weekday: 1,
+      p_ranges: [{ start: "08:00", end: "12:00" }],
+    });
+
+    expectPermissionDenied(
+      result,
+      "admin_set_working_hours",
+      PHASE_15_MIGRATION,
+    );
+  });
+
+  await run("anon no puede ejecutar admin_create_time_off", async () => {
+    const result = await supabase.rpc("admin_create_time_off", {
+      p_starts_at: `${isoDateCR(40)}T08:00:00-06:00`,
+      p_ends_at: `${isoDateCR(40)}T12:00:00-06:00`,
+      p_reason: null,
+      p_force: false,
+    });
+
+    expectPermissionDenied(result, "admin_create_time_off", PHASE_15_MIGRATION);
+  });
+
+  await run("anon no puede ejecutar admin_list_time_off", async () => {
+    const result = await supabase.rpc("admin_list_time_off");
+
+    expectPermissionDenied(result, "admin_list_time_off", PHASE_15_MIGRATION);
+  });
+
+  await run("anon no puede ejecutar admin_delete_time_off", async () => {
+    const result = await supabase.rpc("admin_delete_time_off", {
+      p_time_off_id: "11111111-1111-4111-8111-111111111111",
+    });
+
+    expectPermissionDenied(result, "admin_delete_time_off", PHASE_15_MIGRATION);
+  });
+
+  await run(
+    "anon no puede ejecutar admin_update_business_settings",
+    async () => {
+      const result = await supabase.rpc("admin_update_business_settings", {
+        p_name: "Negocio de prueba",
+        p_whatsapp_phone: "87677997",
+        p_address: null,
+      });
+
+      expectPermissionDenied(
+        result,
+        "admin_update_business_settings",
+        PHASE_15_MIGRATION,
+      );
+    },
+  );
+
+  await run("anon no puede ejecutar admin_update_service_price", async () => {
+    const result = await supabase.rpc("admin_update_service_price", {
+      p_service_id: SERVICE_ID,
+      p_price_cents: 600000,
+    });
+
+    expectPermissionDenied(
+      result,
+      "admin_update_service_price",
+      PHASE_15_MIGRATION,
+    );
   });
 
   // --- Disponibilidad -------------------------------------------------------

@@ -5,6 +5,16 @@ import {
   type AdminAppointment,
 } from "@/lib/admin";
 import { isIsoDate, parseSlots, type BookingSlot } from "@/lib/booking";
+import {
+  parseAdminTimeOffs,
+  parseWorkingHours,
+  type AdminTimeOff,
+  type WorkingHoursDay,
+} from "@/lib/schedule";
+import {
+  parseAdminBusinessSettings,
+  type AdminBusinessSettings,
+} from "@/lib/settings";
 import { createSupabaseAuthServerClient } from "@/lib/supabase/auth";
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -164,6 +174,90 @@ export async function loadAdminOpenWeekdays(
   }
 
   return [...new Set(weekdays)].sort((a, b) => a - b);
+}
+
+/**
+ * Horario de atención del barbero, listo para el editor: siempre los 7 días
+ * de la semana, ordenados de lunes a domingo, con sus tramos ordenados por
+ * hora de inicio. Devuelve `null` si la sesión o la consulta fallan.
+ */
+export async function loadAdminWorkingHours(
+  barberId: string,
+): Promise<WorkingHoursDay[] | null> {
+  if (!isUuid(barberId)) {
+    return null;
+  }
+
+  const supabase = await createSupabaseAuthServerClient();
+
+  if (!supabase) {
+    return null;
+  }
+
+  const { data, error } = await supabase
+    .from("working_hours")
+    .select("weekday, start_time, end_time")
+    .eq("barber_id", barberId);
+
+  if (error) {
+    console.error("No se pudo leer el horario del barbero:", error.message);
+    return null;
+  }
+
+  return parseWorkingHours(data);
+}
+
+/**
+ * Bloqueos vigentes del barbero autenticado (los que aún no terminan), con
+ * la cuenta de citas confirmadas dentro de cada uno.
+ */
+export async function loadAdminTimeOffs(): Promise<AdminTimeOff[] | null> {
+  const supabase = await createSupabaseAuthServerClient();
+
+  if (!supabase) {
+    return null;
+  }
+
+  const { data, error } = await supabase.rpc("admin_list_time_off");
+
+  if (error) {
+    if (!isExpectedError(String(error.message), ["NOT_AUTHENTICATED"])) {
+      console.error("admin_list_time_off falló:", error.message);
+    }
+    return null;
+  }
+
+  return parseAdminTimeOffs(data);
+}
+
+/**
+ * Datos del negocio que se editan en el panel: nombre, WhatsApp y dirección.
+ */
+export async function loadAdminBusinessSettings(
+  businessId: string,
+): Promise<AdminBusinessSettings | null> {
+  if (!isUuid(businessId)) {
+    return null;
+  }
+
+  const supabase = await createSupabaseAuthServerClient();
+
+  if (!supabase) {
+    return null;
+  }
+
+  const { data, error } = await supabase
+    .from("businesses")
+    .select("id, name, whatsapp_phone, address")
+    .eq("id", businessId)
+    .maybeSingle();
+
+  if (error) {
+    console.error("No se pudieron leer los datos del negocio:", error.message);
+    return null;
+  }
+
+  return parseAdminBusinessSettings(data);
 }
 
 export type AdminService = {

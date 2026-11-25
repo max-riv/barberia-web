@@ -55,7 +55,7 @@ export default async function AdminPanelLayout({
           </Link>
           <SignOutForm />
         </div>
-        <nav className="mx-auto flex w-full max-w-4xl gap-4 px-5 pb-3">
+        <nav className="mx-auto flex w-full max-w-4xl flex-wrap gap-4 px-5 pb-3">
           <Link href="/admin" className="text-sm text-ink-soft hover:text-ink">
             Agenda
           </Link>
@@ -64,6 +64,18 @@ export default async function AdminPanelLayout({
             className="text-sm text-ink-soft hover:text-ink"
           >
             Nueva cita
+          </Link>
+          <Link
+            href="/admin/horarios"
+            className="text-sm text-ink-soft hover:text-ink"
+          >
+            Horarios
+          </Link>
+          <Link
+            href="/admin/ajustes"
+            className="text-sm text-ink-soft hover:text-ink"
+          >
+            Ajustes
           </Link>
         </nav>
       </header>
