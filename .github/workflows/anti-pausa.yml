@@ -1,0 +1,21 @@
+name: Anti-pausa Supabase
+
+# El plan gratuito de Supabase pausa el proyecto tras 7 días de inactividad.
+# Este ping a /api/health ejecuta una consulta real contra la base (la propia
+# ruta verifica la conexión), así que cuenta como actividad y evita la pausa.
+# Corre cada 6 días; también se puede lanzar a mano desde la pestaña Actions.
+
+on:
+  schedule:
+    - cron: "0 12 */6 * *" # cada 6 días a las 12:00 UTC (06:00 Costa Rica)
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping a /api/health
+        run: |
+          response=$(curl -fsS https://barberia-web.netlify.app/api/health)
+          echo "$response"
+          echo "$response" | grep -q '"database":"ok"'
