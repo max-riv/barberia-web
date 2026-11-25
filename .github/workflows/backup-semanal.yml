@@ -1,0 +1,40 @@
+name: Backup semanal de Supabase
+
+# Volcado lógico (pg_dump vía Supabase CLI) del esquema y de los datos de la
+# base pública. Se sube como artifact de GitHub Actions con 400 días de
+# retención. Requiere el secret SUPABASE_ACCESS_TOKEN (Settings → Secrets and
+# variables → Actions). El project ref no es secreto: es el de la URL pública.
+#
+# El usuario de Auth del barbero (auth.users) no se incluye: tras una
+# restauración se recrea y se vuelve a vincular a mano (ver docs/operacion.md).
+
+on:
+  schedule:
+    - cron: "0 6 * * 0" # domingos 06:00 UTC (00:00 Costa Rica)
+  workflow_dispatch:
+
+jobs:
+  dump:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Instalar Supabase CLI
+        uses: supabase/setup-cli@v1
+
+      - name: Dump del esquema (DDL)
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+        run: supabase db dump --project-ref taejvbvtmadpgxpczwzw > backup-schema.sql
+
+      - name: Dump de los datos
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+        run: supabase db dump --project-ref taejvbvtmadpgxpczwzw --data-only > backup-data.sql
+
+      - name: Subir el backup como artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: barberia-backup-${{ github.run_number }}
+          path: |
+            backup-schema.sql
+            backup-data.sql
+          retention-days: 400
