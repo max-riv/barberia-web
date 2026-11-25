@@ -68,7 +68,9 @@ firmas) que el agente de frontend consume.
    `SELECT` previo. Captura el error `23P01` y devuélvelo como conflicto.
 5. Escribe tests para cada regla: descanso, antelación, 30 días, solape y
    concurrencia.
-6. Antes de terminar: `npm run test`, `npm run typecheck` y `npm run lint`.
+6. Antes de terminar: `npm run format`, `npm run lint`, `npm run typecheck`
+   y `npm run test`. El CI ejecuta `npm run format:check`: nunca entregues un
+   archivo sin pasar por Prettier.
 
 ## Prohibido
 

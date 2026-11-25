@@ -68,7 +68,9 @@ RLS ni tipos generados.
 4. Muestra siempre tres estados: cargando, vacío y error. Los errores se
    explican en español, sin códigos técnicos.
 5. Accesibilidad mínima: `label` en cada campo, foco visible, contraste AA.
-6. Antes de terminar: `npm run lint`, `npm run typecheck` y `npm run build`.
+6. Antes de terminar: `npm run format`, `npm run lint`, `npm run typecheck`
+   y `npm run build`. El CI ejecuta `npm run format:check`: nunca entregues un
+   archivo sin pasar por Prettier.
 
 ## Prohibido
 

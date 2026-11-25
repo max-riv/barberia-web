@@ -44,8 +44,10 @@ reportas.
    - que `anon` no pueda leer `appointments` ni teléfonos;
    - que un doble envío simultáneo no cree dos citas;
    - que la interfaz funcione a 360 px.
-4. Ejecuta `npm run lint`, `npm run typecheck`, `npm run test` y
-   `npm run build`. Añade e2e en `tests/e2e/` cuando existan flujos.
+4. Ejecuta `npm run format`, `npm run lint`, `npm run typecheck`,
+   `npm run test` y `npm run build`. El CI ejecuta `npm run format:check`:
+   nunca entregues un archivo sin pasar por Prettier. Añade e2e en
+   `tests/e2e/` cuando existan flujos.
 5. Reporta hallazgos ordenados por severidad, con archivo y línea, y di
    explícitamente qué criterio de aceptación falla.
 

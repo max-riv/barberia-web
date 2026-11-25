@@ -70,9 +70,11 @@ tests/e2e/        Playwright
 ## Flujo de trabajo
 
 - Nunca hagas `git commit`, `git push` ni `git reset` (a menos que se te pida
-  explícitamente): el agente líder se encarga.
+  explícitamente): el agente líder se encarga, y corre `npm run format` antes
+  de cada commit.
 - No toques archivos fuera de las carpetas asignadas a tu agente.
-- Antes de reportar algo como terminado: `npm run lint`, `npm run typecheck` y
-  `npm run test`.
+- Antes de reportar algo como terminado: `npm run format`, `npm run lint`,
+  `npm run typecheck` y `npm run test`. El CI ejecuta `npm run format:check`:
+  nunca entregues un archivo sin pasar por Prettier.
 - Si el contrato (tipos, firmas de RPC, server actions) no alcanza, repórtalo;
   no lo cambies por tu cuenta.
