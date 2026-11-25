@@ -34,15 +34,16 @@ llegar al navegador ni al repositorio.
 
 ## Scripts
 
-| Comando             | Qué hace                      |
-| ------------------- | ----------------------------- |
-| `npm run dev`       | Servidor de desarrollo        |
-| `npm run build`     | Build de producción           |
-| `npm run lint`      | ESLint                        |
-| `npm run typecheck` | TypeScript sin emitir         |
-| `npm run test`      | Tests unitarios (Vitest)      |
-| `npm run test:db`   | Reglas de negocio en Supabase |
-| `npm run format`    | Prettier sobre todo el repo   |
+| Comando             | Qué hace                              |
+| ------------------- | ------------------------------------- |
+| `npm run dev`       | Servidor de desarrollo                |
+| `npm run build`     | Build de producción                   |
+| `npm run lint`      | ESLint                                |
+| `npm run typecheck` | TypeScript sin emitir                 |
+| `npm run test`      | Tests unitarios (Vitest)              |
+| `npm run test:db`   | Reglas de negocio en Supabase         |
+| `npm run audit:rls` | Auditoría de RLS con la clave pública |
+| `npm run format`    | Prettier sobre todo el repo           |
 
 ## Base de datos
 
@@ -60,10 +61,17 @@ npm run test:db
 
 Las migraciones se aplican **en orden de nombre**, una sola vez:
 
-| Archivo                                    | Qué añade                                         |
-| ------------------------------------------ | ------------------------------------------------- |
-| `20261115000000_fase_1_1.sql`              | tablas, RLS, RPC de reserva y cancelación         |
-| `20261115000001_fase_1_2_limite_citas.sql` | límite de 3 citas futuras por teléfono (antispam) |
+| Archivo                                                    | Qué añade                                         |
+| ---------------------------------------------------------- | ------------------------------------------------- |
+| `20261115000000_fase_1_1.sql`                              | tablas, RLS, RPC de reserva y cancelación         |
+| `20261115000001_fase_1_2_limite_citas.sql`                 | límite de 3 citas futuras por teléfono (antispam) |
+| `20261121000000_fase_1_3_consulta_cita.sql`                | consulta pública de una cita por token            |
+| `20261121000001_fix_get_appointment_by_token_currency.sql` | fix de moneda en la consulta por token            |
+| `20261124000000_fase_1_4_panel.sql`                        | RPC del panel (agenda, detalle, cita manual)      |
+| `20261124000001_fase_1_5_horarios_bloqueos_ajustes.sql`    | horarios, bloqueos y ajustes del negocio          |
+
+La guía de operación (despliegue, backups, restauración, anti-pausa) está en
+[`docs/operacion.md`](./docs/operacion.md).
 
 El script usa la clave pública y comprueba las reglas reales: doble reserva,
 concurrencia, descanso, antelación, rango de 30 días, miércoles cerrado,
@@ -107,7 +115,7 @@ por fases en [`docs/plan.md`](./docs/plan.md).
 - [x] **Fase 0** — andamiaje, despliegue y verificación de salud.
 - [x] **Fase 1.1** — base de datos, reglas y RLS.
 - [x] **Fase 1.2** — página pública de reserva.
-- [ ] **Fase 1.3** — confirmación, WhatsApp y cancelación.
-- [ ] **Fase 1.4** — login y panel del barbero.
-- [ ] **Fase 1.5** — horarios, descansos y bloqueos.
-- [ ] **Fase 1.6** — endurecimiento y entrega.
+- [x] **Fase 1.3** — confirmación, WhatsApp y cancelación.
+- [x] **Fase 1.4** — login y panel del barbero.
+- [x] **Fase 1.5** — horarios, descansos y bloqueos.
+- [ ] **Fase 1.6** — endurecimiento y entrega (en curso).
