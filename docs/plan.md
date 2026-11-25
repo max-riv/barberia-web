@@ -117,11 +117,29 @@ bloque · usable en celular.
 
 ### Fase 1.5 — Horarios, descansos y bloqueos
 
-- [ ] Editor de horarios por día con varios tramos.
-- [ ] CRUD de bloqueos con aviso si hay cita en el rango.
-- [ ] Ajustes del negocio (nombre, WhatsApp, dirección, precio).
+- [x] Editor de horarios por día con varios tramos
+      (`20261124000001_fase_1_5_horarios_bloqueos_ajustes.sql`,
+      `admin_set_working_hours`: reemplazo atómico, máx. 4 tramos,
+      anti-solape por `EXCLUDE USING gist` y alineación a :00/:30).
+- [x] CRUD de bloqueos con aviso si hay cita en el rango
+      (`admin_create_time_off` devuelve `conflicts` y no inserta nada
+      sin `p_force` cuando hay citas confirmadas solapadas).
+- [x] Ajustes del negocio (nombre, WhatsApp, dirección, precio)
+      (`/admin/ajustes`, `admin_update_business_settings` y
+      `admin_update_service_price`).
 
 **Verificación:** cerrar un día oculta los espacios · cambios sin deploy.
+
+Notas de implementación:
+
+- `/admin/horarios` reúne el editor semanal (una tarjeta por día con
+  selects nativos que funcionan sin JavaScript) y los bloqueos con su
+  aviso de citas en el rango y confirmación "de todos modos".
+- Las reglas viven en SQL: `working_hours` gana el constraint anti-solape
+  y la alineación a :00/:30; los bloqueos se validan en la RPC, nunca en
+  el cliente.
+- Auditoría de la fase en `docs/qa/2026-11-24-fase-1-5-auditoria.md`
+  (APTO · smoke 28/28 · Vitest 58/58).
 
 ### Fase 1.6 — Endurecimiento y entrega
 

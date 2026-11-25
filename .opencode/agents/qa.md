@@ -1,6 +1,6 @@
 ---
 description: Verifica fases contra criterios de aceptación y reporta hallazgos
-mode: subagent
+mode: all
 color: "#22c55e"
 permissions:
   - action: subagent

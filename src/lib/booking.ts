@@ -179,6 +179,42 @@ export function formatSlotRange(slot: BookingSlot): string {
   return `${formatSlotTime(slot.start)} a ${formatSlotTime(slot.end)}`;
 }
 
+/** Hora local de Costa Rica `"HH:MM"` (00:00 a 23:59). */
+const CR_LOCAL_TIME_PATTERN = /^([01][0-9]|2[0-3]):[0-5][0-9]$/;
+
+/**
+ * Convierte una fecha (`YYYY-MM-DD`) y una hora (`HH:MM`, o `"24:00"` para el
+ * fin del día) locales de Costa Rica a un instante ISO en UTC:
+ * `"2026-11-26"` + `"08:00"` → `"2026-11-26T14:00:00.000Z"`.
+ *
+ * El offset `-06:00` va fijo en el literal porque Costa Rica no tiene horario
+ * de verano. No usa `Date.now()` ni el reloj del servidor; devuelve `null` si
+ * la entrada no cuadra.
+ */
+export function crLocalToIsoUtc(date: string, time: string): string | null {
+  if (!isIsoDate(date)) {
+    return null;
+  }
+
+  if (!CR_LOCAL_TIME_PATTERN.test(time) && time !== "24:00") {
+    return null;
+  }
+
+  const instant = new Date(
+    `${date}T${time === "24:00" ? "00:00" : time}:00-06:00`,
+  );
+
+  if (Number.isNaN(instant.getTime())) {
+    return null;
+  }
+
+  if (time === "24:00") {
+    instant.setUTCDate(instant.getUTCDate() + 1);
+  }
+
+  return instant.toISOString();
+}
+
 function slotHour(iso: string): number {
   const parts = new Intl.DateTimeFormat("en-GB", {
     timeZone: BUSINESS_TIMEZONE,
