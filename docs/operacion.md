@@ -94,7 +94,7 @@ una restauración se recrea y se vuelve a vincular a mano (ver abajo).
 
 El plan gratuito pausa el proyecto tras 7 días de inactividad. El workflow
 `.github/workflows/anti-pausa.yml` hace un `GET` a
-`https://barberia-web.netlify.app/api/health` **cada 6 días**. Como `/api/health`
+`https://barberia-web.netlify.app/api/health` **cada 3 días**. Como `/api/health`
 ejecuta una consulta real contra la base, eso cuenta como actividad y evita la
 pausa.
 

@@ -3,11 +3,12 @@ name: Anti-pausa Supabase
 # El plan gratuito de Supabase pausa el proyecto tras 7 días de inactividad.
 # Este ping a /api/health ejecuta una consulta real contra la base (la propia
 # ruta verifica la conexión), así que cuenta como actividad y evita la pausa.
-# Corre cada 6 días; también se puede lanzar a mano desde la pestaña Actions.
+# Corre cada 3 días (margen seguro bajo la pausa de 7 días, incluso en
+# cambios de mes); también se puede lanzar a mano desde la pestaña Actions.
 
 on:
   schedule:
-    - cron: "0 12 */6 * *" # cada 6 días a las 12:00 UTC (06:00 Costa Rica)
+    - cron: "0 12 */3 * *" # cada 3 días a las 12:00 UTC (06:00 Costa Rica)
   workflow_dispatch:
 
 jobs:
