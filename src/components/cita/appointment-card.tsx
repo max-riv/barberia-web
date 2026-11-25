@@ -20,10 +20,10 @@ function Detail({
 }) {
   return (
     <div>
-      <dt className="text-xs font-semibold tracking-[0.12em] text-ink-soft uppercase">
+      <dt className="text-xs font-bold tracking-[0.13em] text-ink-soft uppercase">
         {label}
       </dt>
-      <dd className="mt-1 text-sm leading-relaxed font-medium break-words text-ink">
+      <dd className="mt-1.5 text-sm leading-relaxed font-medium break-words text-ink">
         {children}
       </dd>
     </div>
@@ -41,21 +41,25 @@ export function AppointmentCard({
   );
 
   return (
-    <article className="rounded-2xl border border-line bg-white/60 p-5">
-      <p className="text-xs font-semibold tracking-[0.14em] text-copper uppercase">
+    <article className="urban-card relative overflow-hidden p-5 sm:p-6">
+      <div
+        aria-hidden="true"
+        className="absolute inset-y-0 left-0 w-1 bg-copper"
+      />
+      <p className="text-xs font-bold tracking-[0.16em] text-copper uppercase">
         Fecha y hora
       </p>
-      <p className="mt-2 text-2xl leading-tight font-semibold tracking-tight text-balance">
+      <p className="mt-3 font-display text-3xl leading-[1.02] font-bold text-balance uppercase sm:text-4xl">
         {date}
       </p>
-      <p className="mt-1.5 text-base font-medium text-ink-soft">
+      <p className="mt-2 text-lg font-semibold text-[#d4d4d4] tabular-nums">
         {formatSlotRange({
           start: appointment.startsAt,
           end: appointment.endsAt,
         })}
       </p>
 
-      <dl className="mt-5 grid gap-x-6 gap-y-4 border-t border-line/70 pt-4 sm:grid-cols-2">
+      <dl className="mt-6 grid gap-x-6 gap-y-5 border-t border-line pt-5 sm:grid-cols-2">
         <Detail label="Servicio">
           {appointment.service.name} · {appointment.service.durationMinutes} min
           ·{" "}
@@ -70,7 +74,7 @@ export function AppointmentCard({
         <Detail label="Teléfono">
           <a
             href={`tel:${appointment.customerPhone}`}
-            className="rounded underline decoration-line underline-offset-4"
+            className="inline-flex min-h-11 items-center rounded underline decoration-copper underline-offset-4"
           >
             {formatPhoneForDisplay(appointment.customerPhone)}
           </a>

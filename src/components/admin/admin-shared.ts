@@ -1,26 +1,25 @@
 /** Estilos compartidos del panel del barbero: colores y tamaños de entrada. */
-export const ADMIN_CARD_CLASS =
-  "rounded-2xl border border-line bg-white/70 p-5";
+export const ADMIN_CARD_CLASS = "urban-card p-4 sm:p-5";
 
 export const ADMIN_INPUT_CLASS =
-  "w-full rounded-xl border border-line bg-white px-3 py-3 text-base text-ink transition-colors placeholder:text-ink-soft/60 focus:border-ink focus:outline-none";
+  "min-h-12 w-full rounded-lg border border-line bg-panel px-3.5 py-3 text-base text-ink transition-colors placeholder:text-[#929292] focus:border-copper focus:outline-none disabled:cursor-not-allowed disabled:opacity-60";
 
 export const ADMIN_PRIMARY_BUTTON_CLASS =
-  "inline-flex min-h-12 w-full items-center justify-center rounded-xl bg-ink px-6 text-sm font-semibold text-sand transition-colors hover:bg-ink-soft disabled:cursor-not-allowed disabled:opacity-60";
+  "inline-flex min-h-12 w-full items-center justify-center rounded-lg bg-copper px-6 text-sm font-bold text-sand transition-colors active:bg-copper-dark disabled:cursor-not-allowed disabled:opacity-60";
 
 export const ADMIN_SECONDARY_BUTTON_CLASS =
-  "inline-flex min-h-12 w-full items-center justify-center rounded-xl border border-line bg-white px-6 text-sm font-semibold text-ink transition-colors hover:bg-sand-deep disabled:cursor-not-allowed disabled:opacity-60";
+  "inline-flex min-h-12 w-full items-center justify-center rounded-lg border border-line bg-surface px-4 text-sm font-semibold text-ink transition-colors active:border-copper active:bg-panel disabled:cursor-not-allowed disabled:opacity-60";
 
 export const ADMIN_ERROR_BOX_CLASS =
-  "rounded-xl border border-red-300 bg-red-50 px-3 py-2.5 text-sm text-red-800";
+  "rounded-lg border border-red-400/50 bg-red-950/60 px-4 py-3 text-sm leading-relaxed text-red-100";
 
 /** Aviso positivo (guardado, creado): discreto, con la paleta del panel. */
 export const ADMIN_SUCCESS_BOX_CLASS =
-  "rounded-xl border border-line bg-sand-deep px-3 py-2.5 text-sm text-ink";
+  "rounded-lg border border-emerald-400/40 bg-emerald-950/55 px-4 py-3 text-sm leading-relaxed text-emerald-100";
 
 /** Aviso que pide confirmación, como citas dentro de un bloqueo. */
 export const ADMIN_WARNING_BOX_CLASS =
-  "rounded-xl border border-amber-300 bg-amber-50 px-3 py-2.5 text-sm text-amber-900";
+  "rounded-lg border border-amber-400/45 bg-amber-950/55 px-4 py-3 text-sm leading-relaxed text-amber-100";
 
 export const ADMIN_DETAIL_LABEL_CLASS =
-  "text-xs font-semibold tracking-[0.12em] text-ink-soft uppercase";
+  "text-xs font-bold tracking-[0.13em] text-ink-soft uppercase";

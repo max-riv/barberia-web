@@ -8,10 +8,10 @@ import type { BookingSlot } from "@/lib/booking";
 import { initialBookingState } from "@/lib/booking-state";
 
 const INPUT_CLASS =
-  "w-full rounded-xl border border-line bg-white px-3 py-3 text-base text-ink transition-colors placeholder:text-ink-soft/60 focus:border-ink focus:outline-none";
+  "min-h-12 w-full rounded-lg border border-line bg-panel px-3.5 py-3 text-base text-ink transition-colors placeholder:text-[#8f8f8f] focus:border-copper focus:outline-none";
 
 function errorClass(hasError: boolean): string {
-  return hasError ? "border-red-400 bg-red-50/60" : "";
+  return hasError ? "border-red-400 bg-red-950/50" : "";
 }
 
 export function BookingForm({
@@ -34,13 +34,13 @@ export function BookingForm({
       <div className="space-y-4">
         <p
           role="alert"
-          className="rounded-xl border border-amber-300 bg-amber-50 px-3 py-2.5 text-sm text-amber-900"
+          className="rounded-lg border border-amber-400/50 bg-amber-950/60 px-4 py-3 text-sm leading-relaxed text-amber-100"
         >
           Ese espacio se acaba de ocupar. Elige otro horario.
         </p>
         <Link
           href="/reservar"
-          className="inline-flex min-h-11 items-center justify-center rounded-xl border border-line px-5 text-sm font-semibold text-ink transition-colors hover:bg-sand-deep"
+          className="inline-flex min-h-12 items-center justify-center rounded-lg border border-line bg-panel px-5 text-sm font-bold text-ink transition-colors active:border-copper"
         >
           Ver otros horarios
         </Link>
@@ -49,7 +49,7 @@ export function BookingForm({
   }
 
   return (
-    <form action={formAction} className="space-y-4" noValidate>
+    <form action={formAction} className="space-y-5" noValidate>
       <input type="hidden" name="inicio" value={slot.start} />
 
       {/* Honeypot: invisible para personas, tentador para bots. */}
@@ -84,7 +84,7 @@ export function BookingForm({
           autoComplete="name"
           placeholder="Nombre y apellido"
           aria-invalid={error?.field === "name" || undefined}
-          className={`${INPUT_CLASS} mt-1.5 ${errorClass(error?.field === "name")}`}
+          className={`${INPUT_CLASS} mt-2 ${errorClass(error?.field === "name")}`}
         />
       </div>
 
@@ -95,8 +95,8 @@ export function BookingForm({
         >
           Teléfono
         </label>
-        <div className="mt-1.5 flex items-stretch overflow-hidden rounded-xl border border-line bg-white focus-within:border-ink">
-          <span className="flex items-center border-r border-line bg-sand-deep/60 px-3 text-sm font-semibold text-ink-soft">
+        <div className="mt-2 flex min-h-12 items-stretch overflow-hidden rounded-lg border border-line bg-panel focus-within:border-copper">
+          <span className="flex items-center border-r border-line bg-sand-deep px-3 text-sm font-bold text-ink">
             +506
           </span>
           <input
@@ -109,10 +109,10 @@ export function BookingForm({
             placeholder="8767 7997"
             aria-invalid={error?.field === "phone" || undefined}
             aria-describedby="telefono-ayuda"
-            className="w-full bg-transparent px-3 py-3 text-base text-ink placeholder:text-ink-soft/60 focus:outline-none"
+            className={`min-w-0 flex-1 bg-transparent px-3 py-3 text-base text-ink placeholder:text-[#8f8f8f] focus:outline-none ${error?.field === "phone" ? "bg-red-950/50" : ""}`}
           />
         </div>
-        <p id="telefono-ayuda" className="mt-1.5 text-xs text-ink-soft">
+        <p id="telefono-ayuda" className="mt-2 text-xs text-ink-soft">
           8 dígitos. Puedes escribirlo con o sin el +506.
         </p>
       </div>
@@ -120,7 +120,7 @@ export function BookingForm({
       {error ? (
         <p
           role="alert"
-          className="rounded-xl border border-red-300 bg-red-50 px-3 py-2.5 text-sm text-red-800"
+          className="rounded-lg border border-red-400/50 bg-red-950/60 px-4 py-3 text-sm leading-relaxed text-red-100"
         >
           {error.message}
         </p>
@@ -129,7 +129,7 @@ export function BookingForm({
       <button
         type="submit"
         disabled={pending}
-        className="inline-flex min-h-12 w-full items-center justify-center rounded-xl bg-ink px-6 text-sm font-semibold text-sand transition-colors hover:bg-ink-soft disabled:cursor-not-allowed disabled:opacity-60"
+        className="inline-flex min-h-14 w-full items-center justify-center rounded-lg bg-copper px-6 text-base font-bold text-sand transition-colors active:bg-copper-dark disabled:cursor-not-allowed disabled:opacity-60"
       >
         {pending ? "Reservando…" : "Confirmar cita"}
       </button>

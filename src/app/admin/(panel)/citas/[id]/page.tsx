@@ -21,7 +21,7 @@ import { buildWhatsAppLink } from "@/lib/whatsapp";
 export const dynamic = "force-dynamic";
 
 const BUTTON_CLASS =
-  "inline-flex min-h-12 w-full items-center justify-center rounded-xl border border-line bg-white px-5 text-sm font-semibold text-ink transition-colors hover:bg-sand-deep";
+  "inline-flex min-h-12 w-full items-center justify-center rounded-lg border border-line bg-surface px-5 text-sm font-bold text-ink transition-colors active:border-copper active:bg-panel";
 
 export default async function CitasDetallePage({
   params,
@@ -47,18 +47,19 @@ export default async function CitasDetallePage({
   const whatsappMessage = `Hola, estoy mirando mi cita a las ${formatSlotTime(appointment.startsAt)}. ¿Me lo puedes confirmar?`;
 
   return (
-    <div className="space-y-5">
+    <div className="mx-auto max-w-2xl space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold tracking-tight">
+        <p className="eyebrow">Detalle de cita</p>
+        <h1 className="mt-3 text-4xl leading-none text-balance uppercase sm:text-5xl">
           Cita de {appointment.customerName}
         </h1>
-        <p className="mt-1 text-sm text-ink-soft">
+        <p className="mt-3 text-sm text-ink-soft">
           {formatAdminAppointmentDate(appointment)}
         </p>
       </div>
 
-      <section className="rounded-2xl border border-line bg-white/70 p-5">
-        <dl className="space-y-4 border-t border-line/70 pt-4 sm:grid sm:grid-cols-2 sm:gap-6">
+      <section className="urban-card p-5 sm:p-6">
+        <dl className="grid gap-5 sm:grid-cols-2 sm:gap-6">
           <AdminDetail label="Fecha y hora">
             {formatAdminAppointmentDate(appointment)} ·{" "}
             {formatAdminAppointmentTime(appointment)}
@@ -68,12 +69,14 @@ export default async function CitasDetallePage({
             · {formatPrice(appointment.servicePriceCents)}
           </AdminDetail>
           <AdminDetail label="Estado">
-            <StatusBadge status={appointment.status} isPast={isPast} />
+            <span className="mt-1 inline-flex">
+              <StatusBadge status={appointment.status} isPast={isPast} />
+            </span>
           </AdminDetail>
           <AdminDetail label="Teléfono">
             <a
               href={`tel:${appointment.customerPhone}`}
-              className="rounded underline decoration-line underline-offset-4"
+              className="inline-flex min-h-11 items-center rounded underline decoration-copper underline-offset-4"
             >
               {formatPhoneForDisplay(appointment.customerPhone)}
             </a>
@@ -81,7 +84,7 @@ export default async function CitasDetallePage({
         </dl>
       </section>
 
-      <div className="flex flex-col gap-2">
+      <div className="grid gap-3 sm:grid-cols-2">
         <a href={`tel:${appointment.customerPhone}`} className={BUTTON_CLASS}>
           Llamar
         </a>
@@ -92,30 +95,29 @@ export default async function CitasDetallePage({
           })}
           target="_blank"
           rel="noopener noreferrer"
-          className={BUTTON_CLASS}
+          className={`${BUTTON_CLASS} border-copper/60 text-copper`}
         >
-          Escríbenos por WhatsApp
+          Escribir por WhatsApp
         </a>
-        <Link
-          href="/admin"
-          className="text-center text-sm text-ink-soft hover:underline"
-        >
-          Volver a la agenda
-        </Link>
       </div>
 
-      <section>
-        <h2 className="text-lg font-semibold text-ink">Estado de la cita</h2>
-        <p className="mt-2 text-sm text-ink-soft">
+      <section className="urban-card p-5 sm:p-6">
+        <h2 className="text-3xl text-ink uppercase">Estado de la cita</h2>
+        <p className="mt-2 mb-4 text-sm text-ink-soft">
           Cualquier estado puede cambiarse a cualquier otro.
         </p>
-        <div className="mt-3">
-          <StatusChangeForm
-            appointmentId={appointment.id}
-            initialStatus={appointment.status}
-          />
-        </div>
+        <StatusChangeForm
+          appointmentId={appointment.id}
+          initialStatus={appointment.status}
+        />
       </section>
+
+      <Link
+        href="/admin"
+        className="inline-flex min-h-12 items-center rounded text-sm font-semibold text-ink-soft underline decoration-line underline-offset-4"
+      >
+        Volver a la agenda
+      </Link>
     </div>
   );
 }

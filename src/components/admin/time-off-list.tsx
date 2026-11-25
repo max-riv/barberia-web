@@ -12,7 +12,7 @@ import { initialAdminTimeOffDeleteState } from "@/lib/admin-state";
 import { formatTimeOffRange, type AdminTimeOff } from "@/lib/schedule";
 
 const REMOVE_BUTTON_CLASS =
-  "inline-flex min-h-12 w-full items-center justify-center rounded-xl border border-line bg-white px-5 text-sm font-semibold text-ink transition-colors hover:bg-sand-deep disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto";
+  "inline-flex min-h-12 w-full items-center justify-center rounded-lg border border-line bg-panel px-5 text-sm font-semibold text-ink transition-colors active:border-red-400 active:text-red-100 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto";
 
 /** "jueves 26 de noviembre…" → "Jueves 26 de noviembre…". */
 function upperFirst(text: string): string {
@@ -35,7 +35,7 @@ function TimeOffRow({ timeOff }: { timeOff: AdminTimeOff }) {
   const isDeleted = state.status === "deleted";
 
   return (
-    <li className="rounded-2xl border border-line bg-white/70 p-4 sm:p-5">
+    <li className="urban-card p-4 sm:p-5">
       <p className="text-sm font-semibold text-ink">
         {upperFirst(formatTimeOffRange(timeOff))}
       </p>
@@ -43,24 +43,24 @@ function TimeOffRow({ timeOff }: { timeOff: AdminTimeOff }) {
         <p className="mt-1 text-sm text-ink-soft">{timeOff.reason}</p>
       ) : null}
       {timeOff.appointmentCount > 0 ? (
-        <p className={`mt-2 ${ADMIN_WARNING_BOX_CLASS}`}>
+        <p className={`mt-3 ${ADMIN_WARNING_BOX_CLASS}`}>
           {citasEnRango(timeOff.appointmentCount)}
         </p>
       ) : null}
 
       {state.status === "error" ? (
-        <p role="alert" className={`mt-2 ${ADMIN_ERROR_BOX_CLASS}`}>
+        <p role="alert" className={`mt-3 ${ADMIN_ERROR_BOX_CLASS}`}>
           {state.message}
         </p>
       ) : null}
 
       {isDeleted ? (
-        <p role="status" className={`mt-2 ${ADMIN_SUCCESS_BOX_CLASS}`}>
+        <p role="status" className={`mt-3 ${ADMIN_SUCCESS_BOX_CLASS}`}>
           Bloqueo quitado.
         </p>
       ) : null}
 
-      <form action={formAction} className="mt-3">
+      <form action={formAction} className="mt-4">
         <input type="hidden" name="id" value={timeOff.id} />
         <button
           type="submit"
@@ -82,7 +82,7 @@ export function TimeOffList({
 }) {
   if (timeOffs.length === 0) {
     return (
-      <p className="rounded-xl border border-line bg-white/60 px-4 py-3 text-sm text-ink-soft">
+      <p className="rounded-xl border border-dashed border-line bg-surface/70 px-4 py-5 text-sm text-ink-soft">
         No tienes bloqueos próximos.
       </p>
     );

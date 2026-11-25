@@ -10,13 +10,15 @@ import {
 } from "@/lib/admin";
 import type { AppointmentStatus } from "@/lib/appointment";
 import { initialAdminStatusState } from "@/lib/admin-state";
-import { ADMIN_ERROR_BOX_CLASS } from "@/components/admin/admin-shared";
+import {
+  ADMIN_ERROR_BOX_CLASS,
+  ADMIN_INPUT_CLASS,
+  ADMIN_SECONDARY_BUTTON_CLASS,
+  ADMIN_SUCCESS_BOX_CLASS,
+} from "@/components/admin/admin-shared";
 
 const BUTTON_BASE =
-  "inline-flex min-h-12 w-full items-center justify-center rounded-xl px-5 text-center text-sm font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-60";
-
-const SELECT_CLASS =
-  "w-full rounded-xl border border-line bg-white px-3 py-3 text-sm font-semibold text-ink focus:border-ink focus:outline-none";
+  "inline-flex min-h-12 w-full items-center justify-center rounded-lg px-5 text-center text-sm font-bold transition-colors disabled:cursor-not-allowed disabled:opacity-60";
 
 /**
  * Formulario de cambio de estado de una cita. Ir a `cancelled` pide
@@ -69,10 +71,7 @@ export function StatusChangeForm({
 
       {state.status === "updated" &&
       effectiveStatus === state.appointmentStatus ? (
-        <p
-          role="status"
-          className="rounded-xl border border-line bg-sand-deep px-3 py-2.5 text-sm text-ink"
-        >
+        <p role="status" className={ADMIN_SUCCESS_BOX_CLASS}>
           Estado actualizado: {appointmentStatusLabel(state.appointmentStatus)}.
         </p>
       ) : null}
@@ -83,7 +82,14 @@ export function StatusChangeForm({
         </p>
       ) : null}
 
+      <label
+        htmlFor="estado-cita"
+        className="block text-sm font-semibold text-ink"
+      >
+        Nuevo estado
+      </label>
       <select
+        id="estado-cita"
         name="estado"
         value={effectiveStatus}
         onChange={(event) => {
@@ -94,8 +100,7 @@ export function StatusChangeForm({
           }
         }}
         disabled={pending}
-        aria-label="Estado de la cita"
-        className={SELECT_CLASS}
+        className={ADMIN_INPUT_CLASS}
       >
         {APPOINTMENT_STATUS_OPTIONS.map((option) => (
           <option key={option.value} value={option.value}>
@@ -105,7 +110,7 @@ export function StatusChangeForm({
       </select>
 
       {showConfirmation ? (
-        <div className="rounded-xl border border-line bg-white/70 p-4">
+        <div className="rounded-xl border border-red-400/35 bg-surface p-4">
           <p className="text-sm font-medium text-ink">
             ¿Seguro? El espacio queda libre para otra persona.
           </p>
@@ -114,7 +119,7 @@ export function StatusChangeForm({
               ref={confirmButtonRef}
               type="submit"
               disabled={pending}
-              className={`${BUTTON_BASE} bg-red-700 text-white hover:bg-red-800 sm:flex-1`}
+              className={`${BUTTON_BASE} bg-barber-red text-white active:bg-red-800 sm:flex-1`}
             >
               {pending ? "Cancelando…" : "Sí, marcar como Cancelada"}
             </button>
@@ -122,7 +127,7 @@ export function StatusChangeForm({
               type="button"
               disabled={pending}
               onClick={() => setConfirming(false)}
-              className={`${BUTTON_BASE} border border-line bg-white text-ink hover:bg-sand-deep sm:flex-1`}
+              className={`${BUTTON_BASE} border border-line bg-panel text-ink active:border-copper sm:flex-1`}
             >
               Mejor no
             </button>
@@ -133,7 +138,7 @@ export function StatusChangeForm({
           type={isCancelling ? "button" : "submit"}
           onClick={isCancelling ? () => setConfirming(true) : undefined}
           disabled={pending}
-          className="inline-flex min-h-12 w-full items-center justify-center rounded-xl border border-line bg-white px-5 text-sm font-semibold text-ink transition-colors hover:bg-sand-deep disabled:cursor-not-allowed disabled:opacity-60"
+          className={ADMIN_SECONDARY_BUTTON_CLASS}
         >
           Cambiar estado
         </button>

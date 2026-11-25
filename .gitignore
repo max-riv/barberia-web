@@ -18,6 +18,9 @@
 # producción
 /build
 
+# material original de diseño (los assets finales viven en public/)
+/design/
+
 # varios
 .DS_Store
 *.pem

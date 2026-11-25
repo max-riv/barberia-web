@@ -18,7 +18,7 @@ import { getAdminAccess } from "@/lib/supabase/auth";
 export const dynamic = "force-dynamic";
 
 const BACK_LINK_CLASS =
-  "inline-flex min-h-12 items-center rounded-xl border border-line bg-white px-5 text-sm font-semibold text-ink transition-colors hover:bg-sand-deep";
+  "inline-flex min-h-12 items-center rounded-xl border border-line bg-surface px-5 text-sm font-semibold text-ink transition-colors active:bg-panel";
 
 export default async function NuevaPage({
   searchParams,
@@ -34,10 +34,10 @@ export default async function NuevaPage({
 
   const showError = (message: string) => (
     <div className="space-y-4">
-      <h1 className="text-2xl font-semibold tracking-tight">Nueva cita</h1>
+      <h1 className="text-4xl leading-none uppercase">Nueva cita</h1>
       <p
         role="alert"
-        className="rounded-xl border border-red-300 bg-red-50 px-3 py-2.5 text-sm text-red-800"
+        className="rounded-lg border border-red-400/50 bg-red-950/60 px-4 py-3 text-sm text-red-100"
       >
         {message}
       </p>
@@ -105,12 +105,12 @@ export default async function NuevaPage({
 
   if (slots.length === 0) {
     return (
-      <div className="space-y-5">
-        <h1 className="text-2xl font-semibold tracking-tight">Nueva cita</h1>
+      <div className="mx-auto max-w-2xl space-y-6">
+        <h1 className="text-4xl leading-none uppercase">Nueva cita</h1>
         {datePicker}
         <p
           role="alert"
-          className="rounded-xl border border-line bg-white/60 px-3 py-2.5 text-sm text-ink-soft"
+          className="rounded-xl border border-line bg-surface/60 px-3 py-2.5 text-sm text-ink-soft"
         >
           No hay espacios disponibles para el {formatLongDate(selectedDate)}.
           Elige otro día.
@@ -120,15 +120,12 @@ export default async function NuevaPage({
   }
 
   return (
-    <div className="space-y-5">
-      <h1 className="text-2xl font-semibold tracking-tight">Nueva cita</h1>
+    <div className="mx-auto max-w-2xl space-y-6">
+      <h1 className="text-4xl leading-none uppercase">Nueva cita</h1>
 
       {datePicker}
 
-      <section
-        aria-labelledby="datos-cita"
-        className="rounded-xl border border-line bg-white/60 p-5"
-      >
+      <section aria-labelledby="datos-cita" className="urban-card p-4 sm:p-5">
         <h2
           id="datos-cita"
           className="mb-4 flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1 text-sm font-semibold"

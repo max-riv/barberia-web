@@ -6,7 +6,7 @@ import { cancelAppointmentAction } from "@/actions/cancel-appointment";
 import { initialCancelState } from "@/lib/appointment-state";
 
 const BUTTON_BASE =
-  "inline-flex min-h-12 w-full items-center justify-center rounded-xl px-5 text-center text-sm font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-60";
+  "inline-flex min-h-12 w-full items-center justify-center rounded-lg px-5 text-center text-sm font-bold transition-colors disabled:cursor-not-allowed disabled:opacity-60";
 
 /**
  * Cancelación en dos pasos. La primera pulsación pide confirmación; el envío
@@ -41,7 +41,7 @@ export function CancelAppointmentForm({ token }: { token: string }) {
     return (
       <p
         role="status"
-        className="rounded-xl border border-line bg-sand-deep px-3 py-2.5 text-sm text-ink"
+        className="rounded-lg border border-emerald-400/40 bg-emerald-950/60 px-4 py-3 text-sm text-emerald-100"
       >
         La cita quedó cancelada.
       </p>
@@ -55,14 +55,14 @@ export function CancelAppointmentForm({ token }: { token: string }) {
       {state.status === "error" ? (
         <p
           role="alert"
-          className="mb-3 rounded-xl border border-red-300 bg-red-50 px-3 py-2.5 text-sm text-red-800"
+          className="mb-3 rounded-lg border border-red-400/50 bg-red-950/60 px-4 py-3 text-sm text-red-100"
         >
           {state.message}
         </p>
       ) : null}
 
       {confirming ? (
-        <div className="rounded-xl border border-line bg-white/70 p-4">
+        <div className="rounded-xl border border-red-400/35 bg-surface p-4">
           <p className="text-sm font-medium text-ink">
             ¿Seguro? La cita se libera para otra persona.
           </p>
@@ -71,7 +71,7 @@ export function CancelAppointmentForm({ token }: { token: string }) {
               ref={confirmButtonRef}
               type="submit"
               disabled={pending}
-              className={`${BUTTON_BASE} bg-red-700 text-white hover:bg-red-800 sm:flex-1`}
+              className={`${BUTTON_BASE} bg-barber-red text-white active:bg-red-800 sm:flex-1`}
             >
               {pending ? "Cancelando…" : "Sí, cancelar"}
             </button>
@@ -79,7 +79,7 @@ export function CancelAppointmentForm({ token }: { token: string }) {
               type="button"
               disabled={pending}
               onClick={() => setConfirming(false)}
-              className={`${BUTTON_BASE} border border-line bg-white text-ink hover:bg-sand-deep sm:flex-1`}
+              className={`${BUTTON_BASE} border border-line bg-panel text-ink active:border-copper sm:flex-1`}
             >
               Mejor no
             </button>
@@ -90,7 +90,7 @@ export function CancelAppointmentForm({ token }: { token: string }) {
           ref={cancelButtonRef}
           type="button"
           onClick={() => setConfirming(true)}
-          className={`${BUTTON_BASE} border border-red-300 bg-white text-red-800 hover:bg-red-50`}
+          className={`${BUTTON_BASE} border border-red-400/50 bg-red-950/35 text-red-100 active:bg-red-950/70`}
         >
           Cancelar cita
         </button>

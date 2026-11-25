@@ -14,7 +14,7 @@ import { getAdminAccess } from "@/lib/supabase/auth";
 export const dynamic = "force-dynamic";
 
 const RETRY_LINK_CLASS =
-  "inline-flex min-h-12 items-center rounded-xl border border-line bg-white px-5 text-sm font-semibold text-ink transition-colors hover:bg-sand-deep";
+  "inline-flex min-h-12 items-center rounded-xl border border-line bg-surface px-5 text-sm font-semibold text-ink transition-colors active:bg-panel";
 
 export default async function AjustesPage() {
   const access = await getAdminAccess();
@@ -31,7 +31,7 @@ export default async function AjustesPage() {
   if (settings === null || services === null) {
     return (
       <div className="space-y-4">
-        <h1 className="text-2xl font-semibold tracking-tight">Ajustes</h1>
+        <h1 className="text-4xl leading-none uppercase">Ajustes</h1>
         <p role="alert" className={ADMIN_ERROR_BOX_CLASS}>
           No pudimos cargar los ajustes ahora mismo. Inténtalo de nuevo en un
           momento.
@@ -44,11 +44,11 @@ export default async function AjustesPage() {
   }
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-semibold tracking-tight">Ajustes</h1>
+    <div className="mx-auto max-w-3xl space-y-7">
+      <h1 className="text-4xl leading-none uppercase">Ajustes</h1>
 
       <section aria-labelledby="datos-negocio" className="space-y-3">
-        <h2 id="datos-negocio" className="text-lg font-semibold text-ink">
+        <h2 id="datos-negocio" className="text-2xl text-ink uppercase">
           Datos del negocio
         </h2>
         <p className="text-sm text-ink-soft">
@@ -64,11 +64,11 @@ export default async function AjustesPage() {
       </section>
 
       <section aria-labelledby="precios" className="space-y-3">
-        <h2 id="precios" className="text-lg font-semibold text-ink">
+        <h2 id="precios" className="text-2xl text-ink uppercase">
           Precios
         </h2>
         {services.length === 0 ? (
-          <p className="rounded-xl border border-line bg-white/60 px-4 py-3 text-sm text-ink-soft">
+          <p className="rounded-xl border border-line bg-surface/60 px-4 py-3 text-sm text-ink-soft">
             No hay servicios activos.
           </p>
         ) : (

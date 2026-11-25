@@ -2,6 +2,11 @@
 
 import Link from "next/link";
 
+import {
+  ADMIN_PRIMARY_BUTTON_CLASS,
+  ADMIN_SECONDARY_BUTTON_CLASS,
+} from "@/components/admin/admin-shared";
+
 /** Error inesperado al renderizar el detalle de cita: mensaje en español. */
 export default function CitasDetalleError({
   reset,
@@ -10,23 +15,24 @@ export default function CitasDetalleError({
   reset: () => void;
 }) {
   return (
-    <div className="space-y-4">
-      <h1 className="text-2xl font-semibold tracking-tight">Algo salió mal</h1>
-      <p className="text-sm leading-relaxed text-ink-soft">
+    <div className="urban-card max-w-2xl p-5 sm:p-6">
+      <p className="eyebrow">Detalle de cita</p>
+      <h1 className="mt-4 text-4xl leading-none uppercase">Algo salió mal</h1>
+      <p className="mt-3 text-sm leading-relaxed text-ink-soft">
         No pudimos abrir el detalle de la cita. Inténtalo de nuevo o vuelve a la
         agenda.
       </p>
-      <div className="flex flex-col gap-2 sm:flex-row">
+      <div className="mt-6 flex flex-col gap-3 sm:flex-row">
         <button
           type="button"
           onClick={() => reset()}
-          className="inline-flex min-h-12 w-full items-center justify-center rounded-xl bg-ink px-6 text-sm font-semibold text-sand transition-colors hover:bg-ink-soft sm:max-w-48"
+          className={`${ADMIN_PRIMARY_BUTTON_CLASS} sm:max-w-48`}
         >
           Intentar de nuevo
         </button>
         <Link
           href="/admin"
-          className="inline-flex min-h-12 w-full items-center justify-center rounded-xl border border-line px-6 text-sm font-semibold text-ink transition-colors hover:bg-sand-deep sm:max-w-48"
+          className={`${ADMIN_SECONDARY_BUTTON_CLASS} sm:max-w-48`}
         >
           Volver a la agenda
         </Link>
