@@ -1,27 +1,31 @@
+import Image from "next/image";
 import Link from "next/link";
 
 /** Cabecera común de la parte pública. */
 export function SiteHeader({ businessName }: { businessName: string }) {
   return (
-    <header className="border-b border-line/70">
-      <div className="mx-auto flex w-full max-w-3xl items-center justify-between gap-3 px-5 py-4">
+    <header className="relative z-50 border-b border-line/80 bg-sand/95 backdrop-blur-md">
+      <div className="barber-stripe h-0.5 opacity-80" aria-hidden="true" />
+      <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-2 px-4 py-2.5 sm:px-6 lg:px-8">
         <Link
           href="/"
-          className="flex items-center gap-2.5 text-sm font-semibold tracking-tight"
+          className="flex min-w-0 items-center rounded-md"
+          aria-label={businessName}
         >
-          <span
-            aria-hidden="true"
-            className="grid size-9 place-items-center rounded-full bg-ink text-sm font-semibold text-sand"
-          >
-            C
-          </span>
-          <span>{businessName}</span>
+          <Image
+            src="/images/logo-charlies.png"
+            alt={businessName}
+            width={180}
+            height={76}
+            priority
+            className="h-14 w-auto max-w-36 object-contain sm:h-16 sm:max-w-44"
+          />
         </Link>
         <Link
           href="/reservar"
-          className="rounded-full border border-line px-3 py-1.5 text-xs font-semibold text-ink transition-colors hover:bg-sand-deep"
+          className="inline-flex min-h-12 shrink-0 items-center justify-center rounded-lg bg-copper px-4 text-sm font-bold text-sand transition-colors active:bg-copper-dark sm:px-5"
         >
-          Reservar
+          Reservar cita
         </Link>
       </div>
     </header>
