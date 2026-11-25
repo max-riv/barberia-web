@@ -232,7 +232,7 @@ export default async function Home() {
           <div className="md:pl-4">
             <p className="eyebrow">Detrás de la silla</p>
             <h2 className="mt-4 text-4xl leading-[0.95] uppercase sm:text-5xl">
-              Chata, al frente de Charlie&apos;s
+              Jonathan Madrigal, Chata Barber
             </h2>
             <p className="mt-5 max-w-lg text-base leading-relaxed text-ink-soft">
               Tu cita es tu espacio: ven con tu idea, conversamos y buscamos un
@@ -282,7 +282,7 @@ export default async function Home() {
             <div>
               <p className="eyebrow">Nos vemos en la silla</p>
               <h2 className="mt-4 max-w-xl text-4xl leading-[0.95] uppercase sm:text-6xl">
-                Tu próximo corte está a unos toques
+                Tu próximo corte está a unos toques:
               </h2>
               <div className="mt-7 flex flex-col gap-3 sm:flex-row">
                 <Link
