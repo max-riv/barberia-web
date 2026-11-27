@@ -1,6 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // No revela la versión de Next.js en las cabeceras de respuesta.
+  poweredByHeader: false,
   // Permite recargar HMR al probar desde la red local (por ejemplo, el móvil).
   allowedDevOrigins: ["192.168.0.18"],
   // Cache Components queda desactivado a propósito: la Fase 1 usa cookies de

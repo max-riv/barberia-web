@@ -225,7 +225,7 @@ export default async function Home() {
               src="/images/barbero-retrato.webp"
               alt="Retrato de Chata dentro de la barbería"
               fill
-              sizes="(min-width: 768px) 42vw, 100vw"
+              sizes="(min-width: 768px) min(42vw, 28rem), 100vw"
               className="object-cover object-center"
             />
           </div>

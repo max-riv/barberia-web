@@ -19,3 +19,16 @@
     X-Frame-Options = "DENY"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+# Los chunks de Next.js llevan hash en el nombre de archivo: son inmutables y
+# se cachean un año en el navegador y en el CDN.
+[[headers]]
+  for = "/_next/static/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Imágenes estáticas servidas desde /public: caché larga en navegador y CDN.
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
